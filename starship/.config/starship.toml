@@ -1,0 +1,20 @@
+# * Custom Prompt
+
+format = """
+[<code> ](bold #ffaf87)\
+$aws\
+$directory\
+$git_branch\
+$git_commit\
+$docker_context\
+$python\
+$golang\
+$java\
+$kotlin\
+$nodejs\
+$terraform\
+$vagrant\
+$package\
+[</code>](bold #ffaf87)
+[th3pl4gu3 → ](bold #E6ACFF)
+"""
