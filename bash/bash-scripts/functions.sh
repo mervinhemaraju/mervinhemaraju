@@ -27,7 +27,7 @@ fn_git_load_config_cko()
 fn_git_load_config_personal()
 {
 	# * Set the Git username and user email
-	git config --local user.name 'Mervin Hemaraju' && git config --local user.email 'th3pl4gu33@checkout.com'
+	git config --local user.name 'Mervin Hemaraju' && git config --local user.email 'th3pl4gu33@gmail.com'
 
 	# * Set the github domain alias to reference the account
 	GITHUB_DOMAIN="git@github-personal"

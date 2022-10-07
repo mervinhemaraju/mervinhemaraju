@@ -1,6 +1,21 @@
 # 💫 About Me:
 
-I'm Mervin Hemaraju`<br><br>`- Currently an IT Platform Engineer`<br>`- Previously a System Operations Engineer`<br>`- Started as a Network Engineer`<br><br>`💻 I'm Currently working on`<br>`🧑🏽‍💻 Coding`<br>`🐍 Python Scripting`<br>`☁️ Cloud Scripting`<br>`🖥 Platform Automation
+I'm Mervin Hemaraju
+
+* Currently an IT Platform Engineer
+* Previously a System Operations Engineer
+* Started as a Network Engineer
+
+💻 I'm Currently working on:
+
+🧑🏽‍💻 Coding 
+
+🐍 Python Scripting 
+
+☁️ Cloud Scripting 
+
+🖥 Platform Automation
+
 
 ## 🌐 Socials:
 
