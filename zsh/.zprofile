@@ -38,6 +38,7 @@ alias t='htop'
 alias python='python3'
 alias pip='pip3'
 alias python-load-env='python -m venv .venv && source .venv/bin/activate && python -m pip install --upgrade pip'
+alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 
 # > Git Aliases
 alias git-load-domain-cko="GITHUB_DOMAIN='git@github-cko'"
@@ -50,5 +51,5 @@ alias git-clone=fn_git_clone
 # > AWS Aliases
 alias aws-auth="gimme-aws-creds <<< '0,2,4,5,6,8,9'"
 alias aws-switch-region=fn_aws_switch_region
-alias aws-get-account='python ~/Execs/aws-account-identifier.py'
+alias aws-get-account='python $EXECS/aws-account-identifier.py'
 

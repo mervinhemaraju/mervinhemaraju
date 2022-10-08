@@ -6,8 +6,9 @@
 export ZSH="$HOME/.oh-my-zsh" # * Path to your oh-my-zsh installation.
 export PATH="$PATH:/opt/homebrew/bin/" # * Path to homebrew installations
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
-
-# > Commands
+export EXECS="$HOME/Execs" # * Path to executables
+export KEYS="$HOME/MyKeys" # * Path to SSH Keys
+export PROJECTS="$HOME/Projects" # * Path to Projects
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
