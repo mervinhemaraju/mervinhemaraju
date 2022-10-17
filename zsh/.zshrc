@@ -122,3 +122,4 @@ figlet -cf slant "TH3PL4GU3" | lolcat
 
 # > Evals
 eval "$(starship init zsh)" # * Starship init
+eval "$(zoxide init zsh)" # * Zoxide init

@@ -27,12 +27,15 @@ alias cleanup='brew cleanup'
 alias upgrade='brew update && brew upgrade && brew list >> $DOTFILES/brew_list.txt'
 alias upgrade-all='upgrade && update-install'
 
-alias cat='bat --color=always'
-alias cat-simp='bat -p --pager=never'
+alias cat='bat -p --color=always --pager=never'
 alias la='exa -al --icons --color=always --group-directories-first'
 alias ls='exa -a --icons --color=always --group-directories-first'
 alias ll='exa -l --icons --color=always'
 alias t='htop'
+alias df='duf'
+alias cd='z'
+alias find='fd'
+alias dig='dog'
 
 # > Python Aliases
 alias python='python3'
@@ -41,8 +44,8 @@ alias python-load-env='python -m venv .venv && source .venv/bin/activate && pyth
 alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 
 # > Git Aliases
-alias git-load-domain-cko="GITHUB_DOMAIN='git@github-cko'"
-alias git-load-domain-personal="GITHUB_DOMAIN='git@github-personal'"
+alias git-load-domain-cko="GITHUB_DOMAIN='github-cko'"
+alias git-load-domain-personal="GITHUB_DOMAIN='github-personal'"
 alias git-load-config-cko=fn_git_load_config_cko
 alias git-load-config-personal=fn_git_load_config_personal
 alias git-clear-branches="git branch | grep -v 'main' | xargs git branch -D"
