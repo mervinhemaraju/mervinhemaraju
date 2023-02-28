@@ -21,10 +21,11 @@ alias terminal-restart='exec zsh -l'
 alias clip='pbcopy'
 alias update-list='softwareupdate --list'
 alias update-install='softwareupdate --install'
+alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 # > Brew Aliases
 alias cleanup='brew cleanup'
-alias upgrade='brew update && brew upgrade && brew list >> $DOTFILES/brew_list.txt'
+alias upgrade='brew update && brew upgrade && brew list > $DOTFILES/brew_list.txt'
 alias upgrade-all='upgrade && update-install'
 
 alias cat='bat -p --color=always --pager=never'
