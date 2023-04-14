@@ -8,14 +8,15 @@ I'm Mervin Hemaraju
 
 💻 I'm Currently working on:
 
-🧑🏽‍💻 Coding 
+🧑🏽‍💻 Coding
 
-🐍 Python Scripting 
+🐍 Python Scripting
 
-☁️ Cloud Scripting 
+☁️ Cloud Scripting
 
 🖥 Platform Automation
 
+Find me on [www.mervinhemaraju.com](https://www.mervinhemaraju.com/)
 
 ## 🌐 Socials:
 
