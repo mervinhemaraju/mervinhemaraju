@@ -11,7 +11,6 @@ export KEYS="$HOME/MyKeys" # * Path to SSH Keys
 export PROJECTS="$HOME/Projects" # * Path to Projects
 export ANSIBLE_CONFIG="$HOME/.ansible.cfg" # * Path to ansible config file
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export AWS_REGION=eu-west-1 # * Export a default aws region
 export GRANTED_ENABLE_AUTO_REASSUME=true # * Auto re assume roles for granted
 
 # Set name of the theme to load --- if set to "random", it will
