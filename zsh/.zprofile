@@ -48,6 +48,7 @@ alias python-load-env='python -m venv .venv && source .venv/bin/activate && pyth
 alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 alias pip-chill='pip-chill --no-chill'
 alias pyreq='pip-chill > requirements.txt'
+alias pip-unset='pip config unset global.index-url'
 
 # > Git Aliases
 alias git-load-domain-cko="GITHUB_DOMAIN='github-cko'"
@@ -58,9 +59,14 @@ alias git-clear-branches="git branch | grep -v 'main\|master' | xargs git branch
 alias git-clone=fn_git_clone
 alias grms="git checkout master && git-clear-branches && git pull"
 alias grm="git checkout main && git-clear-branches && git pull"
+alias greset="git reset --soft HEAD~1"
 
 # > Kubernetes
 alias k="kubectl"
+
+# > Docker 
+alias dk="docker"
+alias docker-rmf-images="dk rmi -f $(docker images -aq)"
 
 # > AWS 
 
@@ -90,4 +96,8 @@ alias aws-login-basics="aws-prod-legacy & aws-dev & aws-mgmt &"
 alias aws-login-all="aws-prod-legacy & aws-dev & aws-mgmt & aws-sbox & aws-qa & aws-prod & aws-na-playground &"
 
 # * Aws Service Login
-alias aws-codeartifact-ckoit-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(aws sts get-caller-identity --query Account) --region $AWS_REGION"
+alias aws-codeartifact-login-ckoit="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
+alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
+
+# * Nektos / Act
+alias act-cko-it="act -P $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com/cko-core-platform/github-action-runner-cko-it:1.7.0 -s GITHUB_TOKEN=$GITHUB_CKO_WORKFLOWS"

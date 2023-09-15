@@ -2,6 +2,18 @@
 
 # > Functions are defined here and reference in other bash scripts
 
+# * Get the current AWS account number
+fn_aws_current_account()
+{
+	# Check if AWS credentials have been initialized
+	if [[ -z "$AWS_ACCESS_KEY_ID" || -z "$AWS_SECRET_ACCESS_KEY" ]]; then
+		echo "AWS credentials are not initialized. Please configure your AWS credentials first."
+		exit 1
+	fi
+
+	aws sts get-caller-identity --query Account --output text
+}
+
 # * Switch AWS region between ireland and london
 fn_aws_switch_region()
 {
