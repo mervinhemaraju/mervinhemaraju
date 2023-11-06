@@ -5,6 +5,7 @@
 # > Variable exports
 export ZSH="$HOME/.oh-my-zsh" # * Path to your oh-my-zsh installation.
 export PATH="$PATH:/opt/homebrew/bin/" # * Path to homebrew installations
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH" # * Path to postgresql installations
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables
 export KEYS="$HOME/MyKeys" # * Path to SSH Keys
@@ -79,7 +80,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(history zsh-syntax-highlighting git dotenv macos aws python terraform ansible docker docker-compose golang pip vscode vagrant zsh-autosuggestions)
+plugins=(history zsh-syntax-highlighting git dotenv macos aws python terraform ansible docker docker-compose golang pip vscode vagrant zsh-autosuggestions zsh-docker-aliases)
 
 # > Sourcing
 source $ZSH/oh-my-zsh.sh # * ZSH

@@ -18,7 +18,7 @@ source ~/.secrets
 alias ssh-keys-load='ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt.pem && ssh-add -l'
 
 # > Terminal Aliases
-alias terminal-restart='exec zsh -l'
+alias terminal-restart='exec zsh -l && assume --unset'
 
 # > System Related
 alias clip='pbcopy'
@@ -64,9 +64,11 @@ alias greset="git reset --soft HEAD~1"
 # > Kubernetes
 alias k="kubectl"
 
-# > Docker 
-alias dk="docker"
-alias docker-rmf-images="dk rmi -f $(docker images -aq)"
+# > Pre Commit
+alias pca="pre-commit run --all-files"
+
+# > Terraform Docs
+alias tfdocs="pre-commit run --all-files"
 
 # > AWS 
 
@@ -77,7 +79,7 @@ alias aws-get-account='python $EXECS/aws-account-identifier.py'
 alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
 # * Aws authenticate
-alias aws-auth-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY -b -z --session-duration 43200"
+alias aws-auth-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY -b -z --session-duration 36000"
 alias aws-auth-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA -b -z"
 
 # * New Accounts
