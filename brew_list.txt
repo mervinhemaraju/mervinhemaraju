@@ -98,11 +98,18 @@ pycparser
 pygments
 python-argcomplete
 python-certifi
+python-click
 python-cryptography
+python-dateutil
+python-distlib
+python-filelock
+python-jinja
 python-lxml
 python-markdown
 python-markupsafe
+python-networkx
 python-packaging
+python-platformdirs
 python-pyparsing
 python-pytz
 python-setuptools
@@ -137,7 +144,6 @@ xz
 yapf
 zoxide
 zstd
-alfred
 android-platform-tools
 font-iosevka-nerd-font
 maccy

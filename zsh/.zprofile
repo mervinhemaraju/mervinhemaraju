@@ -31,7 +31,7 @@ alias cleanup='brew cleanup'
 alias upgrade='brew update && brew upgrade && brew list > $DOTFILES/brew_list.txt'
 alias upgrade-all='upgrade && update-install'
 
-alias cat='bat -p --color=always --pager=never'
+alias cat='bat -p'
 alias la='exa -al --icons --color=always --group-directories-first'
 alias ls='exa -a --icons --color=always --group-directories-first'
 alias ll='exa -l --icons --color=always'
@@ -83,15 +83,15 @@ alias aws-auth-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fe
 alias aws-auth-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA -b -z"
 
 # * New Accounts
-alias aws-na-playground="aws-auth-na --profile cko-playground-it-platform-na"
+alias aws-na-playground="aws-auth-na --profile cko-playground-na"
 
 # * Legacy Accounts
-alias aws-prod-legacy="aws-auth-legacy --aws-iam-idp $AWS_IDP_PL --aws-iam-role 'arn:aws:iam::${AWS_PROD_LEGACY}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-prod-legacy-it-platform"
-alias aws-dev="aws-auth-legacy --aws-iam-idp $AWS_IDP_DEV --aws-iam-role 'arn:aws:iam::${AWS_DEV}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-dev-it-platform"
-alias aws-mgmt="aws-auth-legacy --aws-iam-idp $AWS_IDP_MGMT --aws-iam-role 'arn:aws:iam::${AWS_MGMT}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-mgmt-it-platform"
-alias aws-sbox="aws-auth-legacy --aws-iam-idp $AWS_IDP_SBOX --aws-iam-role 'arn:aws:iam::${AWS_SBOX}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-sbox-it-platform"
-alias aws-qa="aws-auth-legacy --aws-iam-idp $AWS_IDP_QA --aws-iam-role 'arn:aws:iam::${AWS_QA}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-qa-it-platform"
-alias aws-prod="aws-auth-legacy --aws-iam-idp $AWS_IDP_PROD --aws-iam-role 'arn:aws:iam::${AWS_PROD}:role/$AWS_ROLE_IT_PLATFORM_VO' --profile cko-prod-it-platform"
+alias aws-prod-legacy="aws-auth-legacy --aws-iam-idp $AWS_IDP_PL --aws-iam-role 'arn:aws:iam::${AWS_PROD_LEGACY}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-prod-legacy"
+alias aws-dev="aws-auth-legacy --aws-iam-idp $AWS_IDP_DEV --aws-iam-role 'arn:aws:iam::${AWS_DEV}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-dev"
+alias aws-mgmt="aws-auth-legacy --aws-iam-idp $AWS_IDP_MGMT --aws-iam-role 'arn:aws:iam::${AWS_MGMT}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-mgmt"
+alias aws-sbox="aws-auth-legacy --aws-iam-idp $AWS_IDP_SBOX --aws-iam-role 'arn:aws:iam::${AWS_SBOX}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-sbox"
+alias aws-qa="aws-auth-legacy --aws-iam-idp $AWS_IDP_QA --aws-iam-role 'arn:aws:iam::${AWS_QA}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-qa"
+alias aws-prod="aws-auth-legacy --aws-iam-idp $AWS_IDP_PROD --aws-iam-role 'arn:aws:iam::${AWS_PROD}:role/$AWS_ROLE_IT_PLATFORM_VO' --profile cko-prod"
 
 # * Mass login
 alias aws-login-basics="aws-prod-legacy & aws-dev & aws-mgmt &"
