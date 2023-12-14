@@ -5,6 +5,7 @@
 # > Variable exports
 export ZSH="$HOME/.oh-my-zsh" # * Path to your oh-my-zsh installation.
 export PATH="$PATH:/opt/homebrew/bin/" # * Path to homebrew installations
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH" # * Path to postgresql installations
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables

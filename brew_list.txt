@@ -8,7 +8,6 @@ ca-certificates
 cairo
 capstone
 cffi
-checkov
 doctl
 dog
 dtc
@@ -32,7 +31,6 @@ granted
 graphite2
 guile
 harfbuzz
-hcledit
 htop
 icu4c
 isl
@@ -83,7 +81,6 @@ okta-aws-cli
 oniguruma
 openblas
 openjdk
-openssl@1.1
 openssl@3
 opentofu
 p11-kit
@@ -119,7 +116,6 @@ python-typing-extensions
 python@3.10
 python@3.11
 python@3.12
-python@3.9
 pyyaml
 qemu
 readline
@@ -133,7 +129,6 @@ telnet
 terraform
 terraform-docs
 tflint
-tmux
 tomcat
 unbound
 utf8proc
@@ -145,7 +140,6 @@ yapf
 zoxide
 zstd
 android-platform-tools
-font-iosevka-nerd-font
 maccy
 rar
 twine

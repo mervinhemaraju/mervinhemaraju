@@ -91,7 +91,7 @@ alias aws-dev="aws-auth-legacy --aws-iam-idp $AWS_IDP_DEV --aws-iam-role 'arn:aw
 alias aws-mgmt="aws-auth-legacy --aws-iam-idp $AWS_IDP_MGMT --aws-iam-role 'arn:aws:iam::${AWS_MGMT}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-mgmt"
 alias aws-sbox="aws-auth-legacy --aws-iam-idp $AWS_IDP_SBOX --aws-iam-role 'arn:aws:iam::${AWS_SBOX}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-sbox"
 alias aws-qa="aws-auth-legacy --aws-iam-idp $AWS_IDP_QA --aws-iam-role 'arn:aws:iam::${AWS_QA}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-qa"
-alias aws-prod="aws-auth-legacy --aws-iam-idp $AWS_IDP_PROD --aws-iam-role 'arn:aws:iam::${AWS_PROD}:role/$AWS_ROLE_IT_PLATFORM_VO' --profile cko-prod"
+alias aws-prod="aws-auth-legacy --aws-iam-idp $AWS_IDP_PROD --aws-iam-role 'arn:aws:iam::${AWS_PROD}:role/$AWS_ROLE_IT_PLATFORM_INFRA' --profile cko-prod"
 
 # * Mass login
 alias aws-login-basics="aws-prod-legacy & aws-dev & aws-mgmt &"
