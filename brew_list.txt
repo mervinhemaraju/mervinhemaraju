@@ -9,6 +9,7 @@ cairo
 capstone
 cffi
 doctl
+docutils
 dog
 dtc
 duf
@@ -50,7 +51,6 @@ libksba
 libmpc
 libnghttp2
 libpng
-libpython-tabulate
 libslirp
 libssh
 libssh2
@@ -67,6 +67,7 @@ libxext
 libxrender
 libyaml
 little-cms2
+llvm
 lolcat
 lz4
 lzo
@@ -81,6 +82,7 @@ okta-aws-cli
 oniguruma
 openblas
 openjdk
+openldap
 openssl@3
 opentofu
 p11-kit
@@ -120,6 +122,7 @@ pyyaml
 qemu
 readline
 ruff
+rustup-init
 six
 snappy
 sqlite
@@ -137,9 +140,14 @@ virtualenv
 xorgproto
 xz
 yapf
+z3
 zoxide
 zstd
 android-platform-tools
+docker
+firefox
+iterm2
 maccy
 rar
+rectangle
 twine

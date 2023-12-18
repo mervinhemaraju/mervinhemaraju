@@ -5,7 +5,7 @@
 #*#######################*#
 
 # > Retrieve functions
-source ~/bash-scripts/functions.sh
+source ~/scripts/bash/functions.sh
 
 # > Retrieve secrets
 source ~/.secrets
@@ -71,6 +71,9 @@ alias pca="pre-commit run --all-files"
 alias tfdocs="pre-commit run --all-files"
 
 # > AWS 
+
+# * Scripts
+alias aws-logs-finder="py ~/scripts/python/aws-logs-finder.py"
 
 # * Aws configs
 alias aws-region-default="export AWS_REGION=eu-west-1"
