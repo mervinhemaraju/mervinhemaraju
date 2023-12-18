@@ -1,5 +1,6 @@
 import cutie
 import boto3
+import sys
 
 
 # > Functions
@@ -50,11 +51,37 @@ def write_to_file(file_name, contents):
             filehandle.write("%s\n" % content)
 
 
+def retrieve_arguments():
+    # * Define arguments as None
+    log_group_pattern = None
+    limit = None
+
+    # * Retrieve arguments
+    match len(sys.argv):
+        case 2:
+            log_group_pattern = sys.argv[1]
+        case 3:
+            log_group_pattern = sys.argv[1]
+            limit = int(sys.argv[2])
+        case _:
+            pass
+
+    # * Return the arguments
+    return log_group_pattern, limit
+
+
 # * Create the boto3 clients
 client_logs = boto3.client("logs")
 
+# * Retrive the arguments
+log_group_pattern, arg_limit = retrieve_arguments()
+
 # * User input for the log group name
-log_group_name = input("Enter the log group name: ")
+log_group_name = (
+    input("Enter the log group name: ")
+    if log_group_pattern is None
+    else log_group_pattern
+)
 
 # * Retrieve the log group names
 log_group_names = retrieve_log_group_names(client_logs, log_group_name)
@@ -66,8 +93,12 @@ if len(log_group_names) < 1:
 
 # * Ask the user to select the log group name and the limit
 selected_log_group_name = log_group_names[cutie.select(log_group_names)]
-limit = cutie.get_number(
-    "How many recent logs do you need ?", min_value=0, allow_float=False
+limit = (
+    cutie.get_number(
+        "How many recent logs do you need ?", min_value=0, allow_float=False
+    )
+    if arg_limit is None
+    else arg_limit
 )
 
 # print a message for the user

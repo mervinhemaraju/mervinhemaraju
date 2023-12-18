@@ -42,8 +42,9 @@ alias find='fd'
 alias dig='dog'
 
 # > Python Aliases
-alias python='python3.10'
-alias pip='pip3'
+alias python='python3.11'
+alias py='python3.11'
+alias pip='pip3.11'
 alias python-load-env='python -m venv .venv && source .venv/bin/activate && python -m pip install --upgrade pip && pip install pip-chill'
 alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 alias pip-chill='pip-chill --no-chill'
@@ -73,7 +74,7 @@ alias tfdocs="pre-commit run --all-files"
 # > AWS 
 
 # * Scripts
-alias aws-logs-finder="py ~/scripts/python/aws-logs-finder.py"
+alias aws-logs-finder="python ~/scripts/python/aws-logs-finder.py"
 
 # * Aws configs
 alias aws-region-default="export AWS_REGION=eu-west-1"
