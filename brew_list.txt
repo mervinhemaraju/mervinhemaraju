@@ -113,6 +113,7 @@ python-pyparsing
 python-pytz
 python-setuptools
 python-tabulate
+python-tk@3.11
 python-toml
 python-typing-extensions
 python@3.10
@@ -128,11 +129,12 @@ snappy
 sqlite
 starship
 stow
+tcl-tk
 telnet
 terraform
 terraform-docs
 tflint
-tomcat
+tree
 unbound
 utf8proc
 vde
@@ -146,8 +148,12 @@ zstd
 android-platform-tools
 docker
 firefox
+font-space-mono-nerd-font
 iterm2
 maccy
+pgadmin4
 rar
 rectangle
 twine
+visual-studio-code
+vnc-viewer
