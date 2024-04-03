@@ -136,7 +136,7 @@ def create_session(
             key_details=oci.bastion.models.PublicKeyDetails(
                 public_key_content=compute_ssh_pub_key
             ),
-            display_name=f"ssh-connection-{select_instance.display_name.lower()}",
+            display_name=f"ssh-connection-{selected_instance.display_name.lower()}",
             key_type="PUB",
             session_ttl_in_seconds=10800,
         )
