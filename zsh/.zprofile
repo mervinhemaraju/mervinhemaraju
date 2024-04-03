@@ -76,7 +76,8 @@ alias tfdocs="pre-commit run --all-files"
 # > AWS 
 
 # * Scripts
-alias aws-logs-finder="python ~/scripts/python/aws-logs-finder.py"
+alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
+alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.bash"
 
 # * Aws configs
 alias aws-region-default="export AWS_REGION=eu-west-1"

@@ -4,10 +4,14 @@ autoconf
 aws-iam-authenticator
 bat
 bdw-gc
+brotli
+c-ares
 ca-certificates
 cairo
 capstone
+certifi
 cffi
+cryptography
 doctl
 docutils
 dog
@@ -59,6 +63,7 @@ libtiff
 libtool
 libunistring
 libusb
+libuv
 libx11
 libxau
 libxcb
@@ -72,12 +77,16 @@ lolcat
 lz4
 lzo
 m4
+mongodb-atlas-cli
+mongosh
 mpdecimal
 mpfr
 ncurses
 nettle
+node
 npth
 numpy
+oci-cli
 okta-aws-cli
 oniguruma
 openblas
@@ -91,6 +100,7 @@ pcre2
 pinentry
 pixman
 pkg-config
+podman
 postgresql@15
 pre-commit
 pycparser
@@ -157,3 +167,4 @@ rectangle
 twine
 visual-studio-code
 vnc-viewer
+zed
