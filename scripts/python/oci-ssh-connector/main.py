@@ -22,7 +22,7 @@ def make_a_choice(message, choices):
     selection = choices[index]
 
     # Show output
-    print(f"{selection} has been selected.")
+    print(f"{selection} has been selected. \n")
 
     # Return the choice
     return index, selection
@@ -62,27 +62,12 @@ def generate_oci_config(selected_account, secrets):
     }
 
 
-def main():
-    # Get the account from user choice
-    _, selected_account = make_a_choice(
-        message="Please choose an OCI account:", choices=accounts
-    )
-
-    # Get the secrets
-    secrets = get_secrets()
-
-    # Get the OCI config
-    config = generate_oci_config(secrets=secrets, selected_account=selected_account)
-
-    # Validate oci config
-    oci.config.validate_config(config)
-
-    # Create a compute client
-    compute = oci.core.ComputeClient(config)
-
+def select_instance(secrets, selected_account, compute_client):
     # List instances
-    instances = compute.list_instances(
-        compartment_id=extract_secret(secrets, "OCI_GAIA_COMPARTMENT_PRODUCTION_ID"),
+    instances = compute_client.list_instances(
+        compartment_id=extract_secret(
+            secrets, f"OCI_{selected_account.upper()}_COMPARTMENT_PRODUCTION_ID"
+        ),
         lifecycle_state="RUNNING",
     ).data
 
@@ -90,20 +75,21 @@ def main():
     instances_names = [instance.display_name for instance in instances]
 
     # Get choice from user
-    selected_instace_index, selected_instance = make_a_choice(
+    selected_instace_index, _ = make_a_choice(
         message="Please choose the instance you want to connect to:",
         choices=instances_names,
     )
 
-    # Get the selected instance data
-    selected_instance = instances[selected_instace_index]
+    # Return the selected instance
+    return instances[selected_instace_index]
 
-    # Create a bastion client
-    bastion = oci.bastion.BastionClient(config)
 
+def select_bastion(secrets, selected_account, bastion_client):
     # Get a list of bastion available
-    bastions = bastion.list_bastions(
-        compartment_id=extract_secret(secrets, "OCI_GAIA_COMPARTMENT_PRODUCTION_ID"),
+    bastions = bastion_client.list_bastions(
+        compartment_id=extract_secret(
+            secrets, f"OCI_{selected_account.upper()}_COMPARTMENT_PRODUCTION_ID"
+        ),
         bastion_lifecycle_state="ACTIVE",
     ).data
 
@@ -111,21 +97,34 @@ def main():
     bastion_names = [bastion.name for bastion in bastions]
 
     # Get choice from user
-    selected_bastion_index, selected_bastion = make_a_choice(
+    selected_bastion_index, _ = make_a_choice(
         message="Please choose the bastion you want to jump to:",
         choices=bastion_names,
     )
 
-    # Get the selected bastion
-    selected_bastion = bastions[selected_bastion_index]
+    # Return the selected bastion
+    return bastions[selected_bastion_index]
 
-    # Retrive the compute ssh pub key
-    compute_ssh_pub_key = extract_secret(
-        secrets, f"OCI_{selected_account.upper()}_COMPUTE_KEY_PUBLIC"
-    )
 
-    # Create the session
-    create_session_response = bastion.create_session(
+def get_active_sessions(bastion_client, selected_instance, selected_bastion):
+    # Get a list of sessions available for this bastion
+    sessions = bastion_client.list_sessions(
+        bastion_id=selected_bastion.id,
+        session_lifecycle_state="ACTIVE",
+    ).data
+
+    # Retrieve sessions that matches the target and return it
+    return [
+        session
+        for session in sessions
+        if session.target_resource_details.target_resource_id == selected_instance.id
+    ]
+
+
+def create_session(
+    bastion_client, selected_bastion, selected_instance, compute_ssh_pub_key
+):
+    create_session_response = bastion_client.create_session(
         create_session_details=oci.bastion.models.CreateSessionDetails(
             bastion_id=selected_bastion.id,
             target_resource_details=oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
@@ -144,22 +143,95 @@ def main():
     )
 
     # Get the bastion session
-    get_session_response = bastion.get_session(
+    get_session_response = bastion_client.get_session(
         session_id=create_session_response.data.id
     )
 
     # Wait for session to become active
-    oci.wait_until(bastion, get_session_response, "lifecycle_state", "ACTIVE")
+    oci.wait_until(bastion_client, get_session_response, "lifecycle_state", "ACTIVE")
 
+    # Retrieve the session id
+    return get_session_response.data.id
+
+
+def get_ssh_command(bastion_client, session_id):
     # Retrieve the ssh command
-    ssh_command = bastion.get_session(
-        session_id=get_session_response.data.id
-    ).data.ssh_metadata["command"]
+    ssh_command = bastion_client.get_session(session_id=session_id).data.ssh_metadata[
+        "command"
+    ]
 
-    # Replace the private key path
-    ssh_command = ssh_command.replace("<privateKey>", COMPUTE_SSH_PRIVATE_KEY_PATH)
+    # Replace the private key path adn return the ssh command
+    return ssh_command.replace("<privateKey>", COMPUTE_SSH_PRIVATE_KEY_PATH)
 
-    print(f"SSH Command: {ssh_command}")
+
+def main():
+    # Get the account from user choice
+    _, selected_account = make_a_choice(
+        message="Please choose an OCI account:", choices=accounts
+    )
+
+    # Get the secrets
+    secrets = get_secrets()
+
+    # Get the OCI config
+    config = generate_oci_config(secrets=secrets, selected_account=selected_account)
+
+    # Validate oci config
+    oci.config.validate_config(config)
+
+    # Create a compute client
+    compute = oci.core.ComputeClient(config)
+
+    # Get the selected instance data
+    selected_instance = select_instance(
+        secrets=secrets, selected_account=selected_account, compute_client=compute
+    )
+
+    # Create a bastion client
+    bastion = oci.bastion.BastionClient(config)
+
+    # Get the selected bastion
+    selected_bastion = select_bastion(
+        secrets=secrets, selected_account=selected_account, bastion_client=bastion
+    )
+
+    # Retrive the compute ssh pub key
+    compute_ssh_pub_key = extract_secret(
+        secrets, f"OCI_{selected_account.upper()}_COMPUTE_KEY_PUBLIC"
+    )
+
+    # Get all active sessions for this bastion
+    active_sessions = get_active_sessions(
+        bastion_client=bastion,
+        selected_bastion=selected_bastion,
+        selected_instance=selected_instance,
+    )
+
+    # If there are no active sessions
+    # create a new one
+    if len(active_sessions) == 0:
+        # Print message
+        print("There are no active sessions. Creating one...")
+
+        # Create the session
+        session_id = create_session(
+            bastion_client=bastion,
+            selected_bastion=selected_bastion,
+            selected_instance=selected_instance,
+            compute_ssh_pub_key=compute_ssh_pub_key,
+        )
+    else:
+        # Print message
+        print("There is an active session. Retrieving it...")
+
+        # Get the active session
+        session_id = active_sessions[0].id
+
+    # Get the ssh command
+    ssh_command = get_ssh_command(bastion_client=bastion, session_id=session_id)
+
+    # Print the command
+    print(f"SSH command: {ssh_command}")
 
 
 main()
