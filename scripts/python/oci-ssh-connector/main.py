@@ -129,16 +129,16 @@ def create_session(
             bastion_id=selected_bastion.id,
             target_resource_details=oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
                 session_type="MANAGED_SSH",
-                target_resource_operating_system_user_name="opc",
+                target_resource_operating_system_user_name="th3pl4gu3",
                 target_resource_id=selected_instance.id,
                 target_resource_port=22,
             ),
             key_details=oci.bastion.models.PublicKeyDetails(
                 public_key_content=compute_ssh_pub_key
             ),
-            display_name="test-sesh",
+            display_name=f"ssh-connection-{select_instance.display_name.lower()}",
             key_type="PUB",
-            session_ttl_in_seconds=1800,
+            session_ttl_in_seconds=10800,
         )
     )
 
