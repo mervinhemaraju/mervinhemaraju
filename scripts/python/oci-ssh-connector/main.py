@@ -1,14 +1,53 @@
 import os
+import re
 import oci
 import cutie
+import fileinput
+import sys
 from dopplersdk import DopplerSDK
 
 SECRETS_MAIN_PROJECT_NAME = "cloud-iac-main"
 SECRETS_MAIN_CONFIG = "prd"
 DOPPLER_MAIN_TOKEN = os.environ["DOPPLER_MAIN_TOKEN"]
 COMPUTE_SSH_PRIVATE_KEY_PATH = os.environ["COMPUTE_SSH_PRIVATE_KEY_PATH"]
+SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 
 accounts = ["gaia", "helios"]
+
+
+def retrieve_bastion_ip(command):
+    ip_pattern = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
+
+    ip_address = re.search(ip_pattern, command)
+
+    if ip_address:
+        return ip_address.group(0)
+
+
+def replace_proxy_command_for_host(file_path, host, new_command, bastion_ip):
+    # Reformat host name
+    host = f"oci-{host}".lower()
+    inside_host_block = False
+    with fileinput.input(files=(file_path), inplace=True, backup=".bak") as f:
+        for line in f:
+            stripped = line.strip()
+            if stripped.startswith("Host ") and host in stripped:
+                inside_host_block = True
+            if inside_host_block and stripped.startswith("ProxyCommand"):
+                line = "ProxyCommand " + new_command + "\n"
+            if inside_host_block and stripped.startswith("HostName"):
+                line = "HostName " + bastion_ip + "\n"
+            if stripped == "":
+                inside_host_block = False
+            sys.stdout.write(line)
+
+
+def extract_proxy_command(command):
+    match = re.search(r'ProxyCommand\s*=\s*"([^"]*)"', command)
+    if match:
+        return match.group(1)
+    else:
+        return None
 
 
 def make_a_choice(message, choices):
@@ -148,7 +187,14 @@ def create_session(
     )
 
     # Wait for session to become active
-    oci.wait_until(bastion_client, get_session_response, "lifecycle_state", "ACTIVE")
+    oci.wait_until(
+        bastion_client,
+        get_session_response,
+        "lifecycle_state",
+        "ACTIVE",
+        max_interval_seconds=15,
+        max_wait_seconds=600,
+    )
 
     # Retrieve the session id
     return get_session_response.data.id
@@ -229,6 +275,22 @@ def main():
 
     # Get the ssh command
     ssh_command = get_ssh_command(bastion_client=bastion, session_id=session_id)
+
+    # Extract the proxy command
+    proxy_command = extract_proxy_command(ssh_command)
+
+    # Retrieve the bastion IP
+    bastion_ip = retrieve_bastion_ip(ssh_command)
+
+    print(f"bi: {bastion_ip} pc: {proxy_command}")
+
+    # Replace the proxy command in the ssh config file
+    replace_proxy_command_for_host(
+        file_path=SSH_CONFIG_PATH,
+        host=selected_instance.display_name,
+        new_command=proxy_command,
+        bastion_ip=bastion_ip,
+    )
 
     # Print the command
     print(f"SSH command: {ssh_command}")
