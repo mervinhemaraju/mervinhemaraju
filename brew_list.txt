@@ -20,6 +20,7 @@ duf
 eksctl
 exa
 fd
+feroxbuster
 figlet
 fontconfig
 freetype
@@ -149,6 +150,7 @@ unbound
 utf8proc
 vde
 virtualenv
+wget
 xorgproto
 xz
 yapf
@@ -161,6 +163,7 @@ firefox
 font-space-mono-nerd-font
 iterm2
 maccy
+mongodb-compass
 pgadmin4
 rar
 rectangle
