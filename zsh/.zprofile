@@ -107,7 +107,8 @@ alias aws-login="export AWS_REGION=eu-west-1 && okta-aws-cli -b -z --session-dur
 # alias aws-login-all="aws-prod-legacy & aws-dev & aws-mgmt & aws-sbox & aws-qa & aws-prod & aws-na-playground &"
 
 # * Aws Service Login
-alias aws-codeartifact-login-ckoit="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
+alias aws-ca-versions="aws_ca_versions"
+alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
 alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
 
 # * Nektos / Act

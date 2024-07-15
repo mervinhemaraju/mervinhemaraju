@@ -13,7 +13,6 @@ certifi
 cffi
 cryptography
 doctl
-docutils
 dog
 dtc
 duf
@@ -73,7 +72,6 @@ libxext
 libxrender
 libyaml
 little-cms2
-llvm
 lolcat
 lz4
 lzo
@@ -110,18 +108,8 @@ python-argcomplete
 python-certifi
 python-click
 python-cryptography
-python-dateutil
-python-distlib
-python-filelock
-python-jinja
-python-lxml
 python-markdown
-python-markupsafe
 python-networkx
-python-packaging
-python-platformdirs
-python-pyparsing
-python-pytz
 python-setuptools
 python-tabulate
 python-tk@3.11
@@ -130,12 +118,10 @@ python-typing-extensions
 python@3.10
 python@3.11
 python@3.12
-pyyaml
 qemu
 readline
 ruff
 rustup-init
-six
 snappy
 sqlite
 starship
@@ -149,12 +135,10 @@ tree
 unbound
 utf8proc
 vde
-virtualenv
 wget
 xorgproto
 xz
 yapf
-z3
 zoxide
 zstd
 android-platform-tools
@@ -169,5 +153,6 @@ rar
 rectangle
 twine
 visual-studio-code
+visual-studio-code@insiders
 vnc-viewer
 zed
