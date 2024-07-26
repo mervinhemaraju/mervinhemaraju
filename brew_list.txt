@@ -49,6 +49,7 @@ libassuan
 libevent
 libgcrypt
 libgit2
+libgit2@1.7
 libgpg-error
 libidn2
 libksba
@@ -121,6 +122,7 @@ python@3.12
 qemu
 readline
 ruff
+rustup
 rustup-init
 snappy
 sqlite

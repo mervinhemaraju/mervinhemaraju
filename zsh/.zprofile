@@ -50,7 +50,8 @@ alias pip='pip3.11'
 alias python-load-env='python -m venv .venv && source .venv/bin/activate && python -m pip install --upgrade pip && pip install pip-chill'
 alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 alias pip-chill='pip-chill --no-chill'
-alias pyreq='pip-chill > requirements.txt'
+alias pip-ins-req='pip install -r requirements.txt'
+alias pip-req='pip-chill > requirements.txt'
 alias pip-unset='pip config unset global.index-url'
 
 # > Git Aliases
@@ -107,7 +108,7 @@ alias aws-login="export AWS_REGION=eu-west-1 && okta-aws-cli -b -z --session-dur
 # alias aws-login-all="aws-prod-legacy & aws-dev & aws-mgmt & aws-sbox & aws-qa & aws-prod & aws-na-playground &"
 
 # * Aws Service Login
-alias aws-ca-versions="aws_ca_versions"
+alias aws-ca-versions="fn_aws_ca_versions"
 alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
 alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
 

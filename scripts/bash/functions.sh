@@ -65,6 +65,6 @@ fn_git_clone() {
 }
 
 # * List the versions for a specific package in AWS CodeArtifact
-aws_ca_versions() {
+fn_aws_ca_versions() {
   aws codeartifact list-package-versions --package "$1" --repository euw1pypackages --domain cko-it-packages --format pypi | jq '.versions[] | .version'
 }
