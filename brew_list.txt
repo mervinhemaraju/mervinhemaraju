@@ -17,7 +17,6 @@ dog
 dtc
 duf
 eksctl
-exa
 fd
 feroxbuster
 figlet
@@ -74,9 +73,11 @@ libxrender
 libyaml
 little-cms2
 lolcat
+lsd
 lz4
 lzo
 m4
+maven
 mongodb-atlas-cli
 mongosh
 mpdecimal
@@ -91,7 +92,6 @@ okta-aws-cli
 oniguruma
 openblas
 openjdk
-openldap
 openssl@3
 opentofu
 p11-kit
@@ -100,7 +100,6 @@ pcre2
 pinentry
 pixman
 pkg-config
-podman
 postgresql@15
 pre-commit
 pycparser
@@ -111,7 +110,6 @@ python-click
 python-cryptography
 python-markdown
 python-networkx
-python-setuptools
 python-tabulate
 python-tk@3.11
 python-toml

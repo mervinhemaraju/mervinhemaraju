@@ -34,9 +34,9 @@ alias upgrade='brew update && brew upgrade && brew list > $DOTFILES/brew_list.tx
 alias upgrade-all='upgrade && update-install'
 
 alias cat='bat -p'
-alias la='exa -al --icons --color=always --group-directories-first'
-alias ls='exa -a --icons --color=always --group-directories-first'
-alias ll='exa -l --icons --color=always'
+alias la='lsd -al --color=always --group-directories-first'
+alias ls='lsd -a --color=always --group-directories-first'
+alias ll='lsd -l --color=always'
 alias t='htop'
 alias df='duf'
 alias cd='z'
