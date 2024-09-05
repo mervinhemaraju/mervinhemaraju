@@ -142,7 +142,9 @@ yapf
 zoxide
 zstd
 android-platform-tools
+chatgpt
 docker
+figma
 firefox
 font-space-mono-nerd-font
 iterm2
