@@ -59,8 +59,34 @@ fn_git_clone() {
 		# * Replace 'github.com' with the ssh domain on machine
 		project=$(echo $project | sed -r "s/github.com/${GITHUB_DOMAIN}/g")
 
+		# * Get the org name
+		org=$(echo ${project#*:} | cut -d'/' -f1)
+
+		# * Get the repo name
+		repo=$(echo ${project#*/} | cut -d'/' -f2 | cut -d'.' -f1)
+
+		# * Verify if cko is in the org name
+		if [[ $org == cko-* ]]; then
+
+			# * Get the domain name
+			dom=${org#cko-}
+
+			# * Re assign the location
+			location="$HOME/Projects/cko/$dom"
+
+			# echo message
+			echo "Creating the directory $location"
+
+			# * Create the directory path
+		  	mkdir -p $location
+			
+		fi
+
+		# echo message
+		echo "Creating repo at $location/$repo"
+
 		# * clone the repo
-		git clone $project $location
+		git clone $project "$location/$repo"
 	fi
 }
 

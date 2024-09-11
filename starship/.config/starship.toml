@@ -1,7 +1,7 @@
 # * Custom Prompt
 
 format = """
-[<code> ](bold #ffaf87)\
+[<code> ](bold #70d2ff)\
 $aws\
 $directory\
 $git_branch\
@@ -15,6 +15,9 @@ $nodejs\
 $terraform\
 $vagrant\
 $package\
-[</code>](bold #ffaf87)
-[th3pl4gu3 → ](bold #E6ACFF)
+[</code>](bold #70d2ff)
+[th3pl4gu3 → ](bold #be90ff)
 """
+
+[directory]
+style = "bold #ffca8d"
