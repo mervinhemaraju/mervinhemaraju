@@ -2,6 +2,7 @@ act
 ansible
 autoconf
 aws-iam-authenticator
+awscli
 bat
 bdw-gc
 brotli
@@ -13,7 +14,6 @@ certifi
 cffi
 cryptography
 doctl
-dog
 dtc
 duf
 eksctl
@@ -92,6 +92,7 @@ okta-aws-cli
 oniguruma
 openblas
 openjdk
+openjdk@21
 openssl@3
 opentofu
 p11-kit
@@ -101,6 +102,7 @@ pinentry
 pixman
 pkg-config
 pre-commit
+pycparser
 python@3.10
 python@3.11
 python@3.12
@@ -108,7 +110,6 @@ qemu
 readline
 ruff
 rustup
-rustup-init
 snappy
 sqlite
 starship
@@ -119,6 +120,7 @@ terraform
 terraform-docs
 tflint
 tree
+twine
 unbound
 utf8proc
 vde
@@ -127,8 +129,11 @@ xorgproto
 xz
 yapf
 zoxide
+zsh-autocomplete
+zsh-completions
 zstd
 android-platform-tools
+android-studio
 chatgpt
 docker
 figma
@@ -138,8 +143,10 @@ iterm2
 maccy
 mongodb-compass
 pgadmin4
+postman
 rar
 rectangle
-twine
+royal-tsx
 visual-studio-code
+vmware-fusion
 vnc-viewer

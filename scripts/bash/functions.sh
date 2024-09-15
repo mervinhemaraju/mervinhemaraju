@@ -63,7 +63,7 @@ fn_git_clone() {
 		org=$(echo ${project#*:} | cut -d'/' -f1)
 
 		# * Get the repo name
-		repo=$(echo ${project#*/} | cut -d'/' -f2 | cut -d'.' -f1)
+		repo=$(basename "${project}" .git)
 
 		# * Verify if cko is in the org name
 		if [[ $org == cko-* ]]; then
