@@ -116,7 +116,8 @@ source ~/.zprofile # * Load zprofile
 # > Commands
 
 # * For AWS CLI completer
-complete -C '/usr/local/bin/aws_completer' aws
+# complete -C '/usr/local/bin/aws_completer' aws
+complete -C '/opt/homebrew/bin/aws_completer' aws
 
 # > Autoloads
 autoload bashcompinit && bashcompinit

@@ -89,9 +89,11 @@ alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
 # * Aws authenticate
 alias aws-login="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY --session-duration 43200 -bz --all-profiles"
-alias aws-login-playground="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_PG -bz --profile cko-new-account-playground"
-alias aws-login-aft="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_AFT -bz --profile cko-new-account-aft"
-alias aws-login-root="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_ROOT -bz --profile cko-new-account-root"
+alias aws-login-playground="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_PG -bz --profile cko-new-account-playground"
+alias aws-login-aft="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_AFT -bz --profile cko-new-account-aft"
+alias aws-login-root="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_ROOT -bz --profile cko-new-account-root"
+alias aws-login-mgmt="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_MGMT -bz --profile cko-new-account-mgmt"
+alias aws-login-mgmt-dev="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_MGMT_DEV -bz --profile cko-new-account-mgmt-dev"
 # alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA -bz --all-profiles"
 
 # * New Accounts

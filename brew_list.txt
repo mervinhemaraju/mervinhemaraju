@@ -101,8 +101,8 @@ pcre2
 pinentry
 pixman
 pkg-config
-pre-commit
 pycparser
+python-packaging
 python@3.10
 python@3.11
 python@3.12
