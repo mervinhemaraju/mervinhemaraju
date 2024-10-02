@@ -139,6 +139,7 @@ docker
 figma
 firefox
 font-space-mono-nerd-font
+gpg-suite
 iterm2
 maccy
 mongodb-compass
