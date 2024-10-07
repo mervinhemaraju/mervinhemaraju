@@ -14,6 +14,7 @@ certifi
 cffi
 cryptography
 doctl
+doggo
 dtc
 duf
 eksctl
