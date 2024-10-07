@@ -21,7 +21,7 @@ alias terminal-restart='exec zsh -l && assume --unset'
 alias clip='xclip'
 alias throw='xclip -selection clipboard -o >'
 alias update='sudo apt-get update -y && sudo apt-get upgrade -y'
-alias update-all='update && sudo apt-get upgrade -y'
+alias update-all='update && sudo apt-get dist-upgrade'
 alias flushdns='sudo resolvectl flush-caches'
 
 alias cat='bat -p'
