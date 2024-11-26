@@ -63,7 +63,7 @@ alias k="kubectl"
 alias pca="pre-commit run --all-files"
 
 # > Terraform Docs
-alias tfdocs="pre-commit run --all-files"
+alias tf-gen-doc="terraform-docs markdown table . > README.md"
 
 # > AWS 
 

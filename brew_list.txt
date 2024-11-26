@@ -37,7 +37,8 @@ graphite2
 guile
 harfbuzz
 htop
-icu4c
+icu4c@75
+icu4c@76
 isl
 jansson
 jello
@@ -57,10 +58,12 @@ libmpc
 libnghttp2
 libpng
 libslirp
+libsodium
 libssh
 libssh2
 libtasn1
 libtiff
+libtommath
 libtool
 libunistring
 libusb
@@ -101,12 +104,13 @@ packer
 pcre2
 pinentry
 pixman
-pkg-config
+pkgconf
 pycparser
 python-packaging
 python@3.10
 python@3.11
 python@3.12
+python@3.13
 qemu
 readline
 ruff
@@ -135,7 +139,6 @@ zsh-completions
 zstd
 android-platform-tools
 android-studio
-chatgpt
 docker
 figma
 firefox
@@ -144,6 +147,7 @@ gpg-suite
 iterm2
 maccy
 mongodb-compass
+nordvpn
 pgadmin4
 postman
 rar

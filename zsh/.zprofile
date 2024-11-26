@@ -15,7 +15,7 @@ source ~/.secrets
 #*###################*#
 
 # > SSH Key sessions
-alias ssh-keys-load-prod='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/prod.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt.pem && ssh-add -l'
+alias ssh-keys-load-prod='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/prod.pem && ssh-add /Users/mervin.hemaraju/MyKeys/hsm-tooling-mgmt.pem && ssh-add -l'
 alias ssh-keys-load-dev='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add -l'
 alias ssh-keys-clear='ssh-add -D'
 
