@@ -1,10 +1,33 @@
 import oci
+import json
+import requests
 import logging
 from kink import di
 from di import main_injection
 
 # Initialize Logging
 logging.getLogger().setLevel(logging.INFO)
+
+
+def post_to_slack(message):
+    # using requests, send a slack message
+    data = {
+        "payload": json.dumps(
+            {
+                # "channel": "#my-channel-here",
+                # "username": "webhookbot",
+                "text": message,
+                # "icon_emoji": ":ghost:"
+            }
+        ),
+    }
+
+    resp = requests.post(
+        di["SLACK_WEBHOOK"],
+        data=data,
+    )
+
+    print(f"Resp is {resp.content}")
 
 
 def get_image(compute, compartment_id, shape):
@@ -125,10 +148,18 @@ def main():
         # Verify if an instance was created
         if len(instance_ids) > 0:
             # Log event
-            logging.info(f"Instances were creaed: {instance_ids}")
+            logging.info(f"Instances were created: {instance_ids}")
+
+            # Post to slack
+            post_to_slack(f"Instances were created: {instance_ids}")
         else:
             raise Exception(f"No instance was created: {errors}")
+        
+        post_to_slack(f"Instances were created")
 
     except Exception as e:
         # Log event
         logging.error(f"Error: {str(e)}")
+
+        # Post to slack
+        post_to_slack(f"Error: {str(e)}")

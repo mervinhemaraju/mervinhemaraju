@@ -7,6 +7,7 @@ from dopplersdk import DopplerSDK
 
 
 def main_injection(func):
+
     def extract_secret(secrets, name):
         return secrets.get(
             project="cloud-iac-main",
@@ -56,6 +57,7 @@ def main_injection(func):
     def wrapper(*args, **kwargs):
         # * DI for os variables
         di["DOPPLER_MAIN_TOKEN"] = os.environ["DOPPLER_MAIN_TOKEN"]
+        di["SLACK_WEBHOOK"] = os.environ["SLACK_WEBHOOK"]
 
         # * Define choices
         available_accounts = ["helios", "poseidon"]
