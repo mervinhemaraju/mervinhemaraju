@@ -12,7 +12,8 @@ DOPPLER_MAIN_TOKEN = os.environ["DOPPLER_MAIN_TOKEN"]
 COMPUTE_SSH_PRIVATE_KEY_PATH = os.environ["COMPUTE_SSH_PRIVATE_KEY_PATH"]
 SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 
-accounts = ["gaia", "helios"]
+accounts = ["gaia", "helios", "poseidon"]
+regions = ["af-johannesburg-1", "uk-london-1"]
 
 
 def retrieve_bastion_ip(command):
@@ -84,7 +85,7 @@ def get_secrets():
     return doppler.secrets
 
 
-def generate_oci_config(selected_account, secrets):
+def generate_oci_config(selected_account, selected_region, secrets):
     #  Retrieve account info from secrets
     user_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_USER_OCID")
     tenancy_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_TENANCY_OCID")
@@ -97,7 +98,7 @@ def generate_oci_config(selected_account, secrets):
         "key_content": key_content,
         "fingerprint": fingerprint,
         "tenancy": tenancy_id,
-        "region": "af-johannesburg-1",
+        "region": selected_region,
     }
 
 
@@ -216,11 +217,16 @@ def main():
         message="Please choose an OCI account:", choices=accounts
     )
 
+    # Get the region from user choice
+    _, selected_region = make_a_choice(
+        message="Please choose an OCI region:", choices=regions
+    )
+
     # Get the secrets
     secrets = get_secrets()
 
     # Get the OCI config
-    config = generate_oci_config(secrets=secrets, selected_account=selected_account)
+    config = generate_oci_config(secrets=secrets, selected_account=selected_account, selected_region=selected_region,)
 
     # Validate oci config
     oci.config.validate_config(config)
