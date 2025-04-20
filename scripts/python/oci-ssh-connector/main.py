@@ -14,6 +14,7 @@ SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 
 accounts = ["gaia", "helios", "poseidon"]
 regions = ["af-johannesburg-1", "uk-london-1"]
+usernames = ["th3pl4gu3", "opc"]
 
 
 def retrieve_bastion_ip(command):
@@ -162,14 +163,14 @@ def get_active_sessions(bastion_client, selected_instance, selected_bastion):
 
 
 def create_session(
-    bastion_client, selected_bastion, selected_instance, compute_ssh_pub_key
+    bastion_client, selected_bastion, selected_instance, selected_username, compute_ssh_pub_key
 ):
     create_session_response = bastion_client.create_session(
         create_session_details=oci.bastion.models.CreateSessionDetails(
             bastion_id=selected_bastion.id,
             target_resource_details=oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
                 session_type="MANAGED_SSH",
-                target_resource_operating_system_user_name="th3pl4gu3",
+                target_resource_operating_system_user_name=selected_username,
                 target_resource_id=selected_instance.id,
                 target_resource_port=22,
             ),
@@ -222,6 +223,11 @@ def main():
         message="Please choose an OCI region:", choices=regions
     )
 
+    # Get the username from user choice
+    _, selected_username = make_a_choice(
+        message="Please choose a username:", choices=usernames
+    )
+
     # Get the secrets
     secrets = get_secrets()
 
@@ -270,6 +276,7 @@ def main():
             bastion_client=bastion,
             selected_bastion=selected_bastion,
             selected_instance=selected_instance,
+            selected_username=selected_username,
             compute_ssh_pub_key=compute_ssh_pub_key,
         )
     else:
