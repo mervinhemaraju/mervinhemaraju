@@ -15,9 +15,9 @@ source ~/.secrets
 #*###################*#
 
 # > SSH Key sessions
-alias ssh-keys-load-prod='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/prod.pem && ssh-add /Users/mervin.hemaraju/MyKeys/hsm-tooling-mgmt.pem && ssh-add -l'
-alias ssh-keys-load-dev='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add -l'
-alias ssh-keys-clear='ssh-add -D'
+# alias ssh-keys-load-prod='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/prod.pem && ssh-add /Users/mervin.hemaraju/MyKeys/hsm-tooling-mgmt.pem && ssh-add -l'
+# alias ssh-keys-load-dev='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add -l'
+# alias ssh-keys-clear='ssh-add -D'
 
 # > Terminal Aliases
 alias terminal-restart='exec zsh -l && assume --unset'
@@ -57,9 +57,9 @@ alias pip-req='pip-chill > requirements.txt'
 alias pip-unset='pip config unset global.index-url'
 
 # > Git Aliases
-alias git-load-domain-cko="GITHUB_DOMAIN='github-cko'"
+alias git-load-domain-work="GITHUB_DOMAIN='github-dke'"
 alias git-load-domain-personal="GITHUB_DOMAIN='github-personal'"
-alias git-load-config-cko=fn_git_load_config_cko
+alias git-load-config-work=fn_git_load_config_work
 alias git-load-config-personal=fn_git_load_config_personal
 alias git-clear-branches="git branch | grep -v 'main\|master' | xargs git branch -D"
 alias git-clone=fn_git_clone
@@ -68,7 +68,13 @@ alias grm="git checkout main && git-clear-branches && git pull"
 alias greset="git reset --soft HEAD~1"
 
 # > Kubernetes
-alias k="kubectl"
+alias mk="minikube"
+alias kctx="kubectx"
+alias kns="kubens"
+
+# > ArgoCD
+alias argo-admin-secret="kgsec argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
+alias argo-pf="k port-forward service/argocd-server -n argocd 8080:443"
 
 # > Pre Commit
 alias pca="pre-commit run --all-files"
@@ -90,14 +96,14 @@ alias aws-get-account='python $EXECS/aws-account-identifier.py'
 alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
 # * Aws authenticate
-alias aws-login="aws-login-na && aws-login-legacy"
-alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-session-duration 43200 -bz --all-profiles"
-alias aws-login-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY --aws-session-duration 43200 -bz --all-profiles"
-alias aws-login-playground="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_PG -bz --profile cko-na-playground"
-alias aws-login-aft="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_AFT -bz --profile cko-na-aft"
-alias aws-login-root="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_ROOT -bz --profile cko-na-root"
-alias aws-login-ccp="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_CCP -bz --profile cko-na-ccp"
-alias aws-login-ccp-dev="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_CCP_DEV -bz --profile cko-na-ccp-dev"
+# alias aws-login="aws-login-na && aws-login-legacy"
+# alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-session-duration 43200 -bz --all-profiles"
+# alias aws-login-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY --aws-session-duration 43200 -bz --all-profiles"
+# alias aws-login-playground="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_PG -bz --profile cko-na-playground"
+# alias aws-login-aft="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_AFT -bz --profile cko-na-aft"
+# alias aws-login-root="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_ROOT -bz --profile cko-na-root"
+# alias aws-login-ccp="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_CCP -bz --profile cko-na-ccp"
+# alias aws-login-ccp-dev="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_CCP_DEV -bz --profile cko-na-ccp-dev"
 # alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA -bz --all-profiles"
 
 # * Mass login
@@ -106,9 +112,9 @@ alias aws-login-ccp-dev="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FE
 # alias aws-login-all="aws-prod-legacy & aws-dev & aws-mgmt & aws-sbox & aws-qa & aws-prod & aws-na-playground &"
 
 # * Aws Service Login
-alias aws-ca-versions="fn_aws_ca_versions"
-alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
-alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
+# alias aws-ca-versions="fn_aws_ca_versions"
+# alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
+# alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
 
 # * Nektos / Act
-alias act-cko-it="act -P $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com/cko-core-platform/github-action-runner-cko-it:1.7.0 -s GITHUB_TOKEN=$GITHUB_CKO_WORKFLOWS"
+# alias act-cko-it="act -P $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com/cko-core-platform/github-action-runner-cko-it:1.7.0 -s GITHUB_TOKEN=$GITHUB_CKO_WORKFLOWS"

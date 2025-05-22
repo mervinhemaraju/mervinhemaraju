@@ -1,0 +1,8 @@
+DefaultBrowser = "FIREFOX"
+CustomBrowserPath = "/opt/homebrew/bin/firefox"
+CustomSSOBrowserPath = "/opt/homebrew/bin/firefox"
+Ordering = ""
+ExportCredentialSuffix = ""
+
+[Keyring]
+  Backend = "keychain"

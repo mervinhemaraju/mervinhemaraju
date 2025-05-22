@@ -26,13 +26,13 @@ fn_aws_switch_region()
 }
 
 # * Load the CKO Git Config
-fn_git_load_config_cko()
+fn_git_load_config_work()
 {
 	# * Set the Git username and user email
-	git config --local user.name 'Mervin Hemaraju' && git config --local user.email 'mervin.hemaraju@checkout.com'
+	git config --local user.name 'Mervin Hemaraju' && git config --local user.email 'mervin.hemaraju@duokey.com'
 
 	# * Set the github domain alias to reference the account
-	GITHUB_DOMAIN="github-cko"
+	GITHUB_DOMAIN="github-dke"
 }
 
 # * Load the Personal Git Config

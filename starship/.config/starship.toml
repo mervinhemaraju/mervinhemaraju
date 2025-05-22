@@ -1,8 +1,10 @@
 # * Custom Prompt
 
 format = """
-[<code> ](bold #70d2ff)\
+[<m> ](bold #70d2ff)\
 $aws\
+$azure\
+$gcloud\
 $directory\
 $git_branch\
 $git_commit\
@@ -15,9 +17,21 @@ $nodejs\
 $terraform\
 $vagrant\
 $package\
-[</code>](bold #70d2ff)
+$kubernetes\
+[</m>](bold #70d2ff)
 [th3pl4gu3 → ](bold #be90ff)
 """
 
+# Directory module configuration
 [directory]
 style = "bold #ffca8d"
+
+# Kubernetes module configuration
+[kubernetes]
+disabled = false                                       # Ensure it's enabled
+format = '[k8~ $context( \($namespace\) )](bold cyan)'
+symbol = ""
+style = "bold cyan"
+# detect_extensions = ["yaml", "yml", "json"]
+# detect_files = ["kustomization.yaml", "kustomization.yml", "Chart.yaml"]
+# detect_folders = ["kubernetes", "k8s", ".kube"]

@@ -2,8 +2,8 @@
 
 I'm Mervin Hemaraju
 
-* Currently an IT Platform Engineer
-* Previously a System Operations Engineer
+* Currently a DevOps Engineer
+* Previously a Cloud Platform Engineer
 * Started as a Network Engineer
 
 💻 I'm Currently working on:
