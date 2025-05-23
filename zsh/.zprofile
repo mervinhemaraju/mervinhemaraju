@@ -68,6 +68,7 @@ alias grm="git checkout main && git-clear-branches && git pull"
 alias greset="git reset --soft HEAD~1"
 
 # > Kubernetes
+alias kust="k kustomize"
 alias mk="minikube"
 alias kctx="kubectx"
 alias kns="kubens"

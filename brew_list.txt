@@ -5,7 +5,9 @@ bat
 ca-certificates
 certifi
 cffi
+cocoapods
 cryptography
+dart-sdk
 figlet
 go
 granted
@@ -30,6 +32,7 @@ python@3.11
 python@3.12
 python@3.13
 readline
+ruby
 sqlite
 starship
 terraform

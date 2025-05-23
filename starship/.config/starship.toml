@@ -5,7 +5,6 @@ format = """
 $aws\
 $azure\
 $gcloud\
-$directory\
 $git_branch\
 $git_commit\
 $docker_context\
@@ -18,18 +17,33 @@ $terraform\
 $vagrant\
 $package\
 $kubernetes\
-[</m>](bold #70d2ff)
+[</m>](bold #70d2ff)\n
+[$directory](bold #70d2ff)\n
 [th3pl4gu3 → ](bold #be90ff)
 """
 
-# Directory module configuration
+[aws]
+disabled = false
+symbol = "☁️ "
+style = "bold #ffcc67"
+
+[azure]
+disabled = false
+symbol = "☁️ "
+style = "bold #7fb7ff"
+
+[gcloud]
+disabled = false
+symbol = "G"
+style = "bold yellow"
+
 [directory]
 style = "bold #ffca8d"
 
 # Kubernetes module configuration
 [kubernetes]
-disabled = false                                       # Ensure it's enabled
-format = '[k8~ $context( \($namespace\) )](bold cyan)'
+disabled = false
+format = '☸ [$context( \($namespace\) )](bold cyan)'
 symbol = ""
 style = "bold cyan"
 # detect_extensions = ["yaml", "yml", "json"]
