@@ -1,0 +1,20 @@
+services:
+  transmission:
+    image: linuxserver/transmission:arm64v8-latest # ARM-compatible image for RPi5
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Indian/Mauritius
+      - USER=${USERNAME} # Web UI username
+      - PASS=${PASSWORD} # Web UI password (change this!)
+    volumes:
+      - ${MAIN_TRANSMISSION_PATH}/config:/config # Transmission config files
+      - ${MAIN_MEDIA_PATH}/Downloads:/downloads # Completed downloads
+      - ${MAIN_MEDIA_PATH}/watch:/watch # Watch directory for .torrent files
+    ports:
+      - "9091:9091" # Web UI port
+      - "51413:51413" # Default torrent port
+      - "51413:51413/udp" # Default torrent UDP port
+    restart: unless-stopped
+    network_mode: bridge

@@ -56,32 +56,15 @@ alias grms="git checkout master && git-clear-branches && git pull"
 alias grm="git checkout main && git-clear-branches && git pull"
 alias greset="git reset --soft HEAD~1"
 
-# > Kubernetes
-alias k="kubectl"
-
 # > Pre Commit
 alias pca="pre-commit run --all-files"
 
 # > Terraform Docs
 alias tf-gen-doc="terraform-docs markdown table . > README.md"
 
-# > AWS 
+# > Cloud 
 
 # * Scripts
 alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
 alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"
 alias oci-ampere-finder="~/Dotfiles/scripts/python/oci-ampere-finder/exec.sh"
-
-# * Aws configs
-alias aws-region-default="export AWS_REGION=eu-west-1"
-alias aws-region-switch=fn_aws_switch_region
-alias aws-get-account='python $EXECS/aws-account-identifier.py'
-alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
-
-# * Aws Service Login
-alias aws-ca-versions="fn_aws_ca_versions"
-alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
-alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
-
-# * Nektos / Act
-alias act-cko-it="act -P $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com/cko-core-platform/github-action-runner-cko-it:1.7.0 -s GITHUB_TOKEN=$GITHUB_CKO_WORKFLOWS"

@@ -1,0 +1,21 @@
+services:
+  plex:
+    image: lscr.io/linuxserver/plex:latest
+    container_name: plex
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Indian/Mauritius
+      - VERSION=docker
+      - PLEX_CLAIM=${PLEX_CLAIM}
+    volumes:
+      - ${MAIN_PLEX_PATH}/plex:/config
+      - ${MAIN_PLEX_PATH}/media:/media
+      - ${COLLECTIONS_PATH}:/collections
+
+      # Temporary transcoding files
+      - /tmp/plex:/transcode
+    restart: unless-stopped
+    devices:
+      - /dev/dri:/dev/dri
