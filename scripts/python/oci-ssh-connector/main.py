@@ -147,7 +147,9 @@ def select_bastion(secrets, selected_account, bastion_client):
     return bastions[selected_bastion_index]
 
 
-def get_active_sessions(bastion_client, selected_instance, selected_bastion):
+def get_active_sessions(
+    bastion_client, selected_instance, selected_bastion, selected_username
+):
     # Get a list of sessions available for this bastion
     sessions = bastion_client.list_sessions(
         bastion_id=selected_bastion.id,
@@ -159,11 +161,17 @@ def get_active_sessions(bastion_client, selected_instance, selected_bastion):
         session
         for session in sessions
         if session.target_resource_details.target_resource_id == selected_instance.id
+        and session.target_resource_details.target_resource_operating_system_user_name
+        == selected_username
     ]
 
 
 def create_session(
-    bastion_client, selected_bastion, selected_instance, selected_username, compute_ssh_pub_key
+    bastion_client,
+    selected_bastion,
+    selected_instance,
+    selected_username,
+    compute_ssh_pub_key,
 ):
     create_session_response = bastion_client.create_session(
         create_session_details=oci.bastion.models.CreateSessionDetails(
@@ -232,7 +240,11 @@ def main():
     secrets = get_secrets()
 
     # Get the OCI config
-    config = generate_oci_config(secrets=secrets, selected_account=selected_account, selected_region=selected_region,)
+    config = generate_oci_config(
+        secrets=secrets,
+        selected_account=selected_account,
+        selected_region=selected_region,
+    )
 
     # Validate oci config
     oci.config.validate_config(config)
@@ -263,6 +275,7 @@ def main():
         bastion_client=bastion,
         selected_bastion=selected_bastion,
         selected_instance=selected_instance,
+        selected_username=selected_username,
     )
 
     # If there are no active sessions

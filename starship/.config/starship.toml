@@ -18,8 +18,7 @@ $vagrant\
 $package\
 $kubernetes\
 [</m>](bold #70d2ff)\n
-[$directory](bold #70d2ff)\n
-[th3pl4gu3 → ](bold #be90ff)
+[th3pl4gu3 ($directory) → ](bold #be90ff)
 """
 
 [aws]
