@@ -61,10 +61,9 @@ alias git-load-domain-work="GITHUB_DOMAIN='github-dke'"
 alias git-load-domain-personal="GITHUB_DOMAIN='github-personal'"
 alias git-load-config-work=fn_git_load_config_work
 alias git-load-config-personal=fn_git_load_config_personal
-alias git-clear-branches="git branch | grep -v 'main\|master' | xargs git branch -D"
-alias git-clone=fn_git_clone
-alias grms="git checkout master && git-clear-branches && git pull"
-alias grm="git checkout main && git-clear-branches && git pull"
+alias git-clear-branches="git branch | grep -v '\bmain\b\|\bmaster\b\|\bdev\b\|\bstg\b\|\bstaging\b\|\bqa\b' | xargs git branch -D"
+alias gcl="py $DOTFILES/scripts/python/functions/git_clone.py"
+alias gca='f(){ git checkout ${1:-main} && git-clear-branches && git pull origin ${1:-main}; }; f'
 alias greset="git reset --soft HEAD~1"
 
 # > Kubernetes
@@ -81,10 +80,12 @@ alias argo-pf="k port-forward service/argocd-server -n argocd 8080:443"
 alias pca="pre-commit run --all-files"
 
 # > Terraform Docs
-alias tfdocs="pre-commit run --all-files"
+# alias tfdocs="pre-commit run --all-files"
+
+# > Other Tools
+alias pass="py $DOTFILES/scripts/python/functions/password_generator.py"
 
 # > AWS 
-
 # * Scripts
 alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
 alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"

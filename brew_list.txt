@@ -1,13 +1,17 @@
 ansible
+augeas
 awscli
 azure-cli
 bat
 ca-certificates
+certbot
 certifi
 cffi
 cocoapods
 cryptography
 dart-sdk
+dialog
+doggo
 figlet
 go
 granted
@@ -27,6 +31,7 @@ mpdecimal
 oci-cli
 oniguruma
 openssl@3
+opentofu
 pycparser
 python@3.11
 python@3.12
@@ -45,7 +50,6 @@ android-studio
 docker
 firefox
 font-space-mono-nerd-font
-foxit-pdf-editor
 google-chrome
 google-cloud-sdk
 iterm2
