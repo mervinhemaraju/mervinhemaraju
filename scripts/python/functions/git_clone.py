@@ -67,7 +67,7 @@ def path_sanitization(domain: str, path: str) -> str:
     # If domain is gitlab
     elif domain == "gitlab.com":
         # Return the sanitized path for gitlab
-        return f"gitlab/{path}"
+        return WORK_DIR.format(f"gitlab/{path}")
 
     # If domain is github
     elif domain == "github.com":
@@ -81,6 +81,25 @@ def path_sanitization(domain: str, path: str) -> str:
         return WORK_DIR.format(f"github/{path}")
     else:
         raise ValueError(f"Unsupported domain: {domain}.")
+
+
+def domain_sanitization(domain: str) -> str:
+    # Add any extra sanitization logic for specific domains here
+
+    # Check if the domain is github
+    if domain == "github.com":
+        # Get the value for the env var $GITHUB_DOMAIN
+        github_domain = os.getenv("GITHUB_DOMAIN", None)
+
+        # Check if github_domain is not None
+        if github_domain is not None:
+            # Return the sanitized domain
+            return github_domain
+        else:
+            # If the env var is not set, raise an exception
+            raise ValueError("GITHUB_DOMAIN environment variable is not set.")
+
+    return domain
 
 
 def main():
@@ -103,6 +122,9 @@ def main():
             domain,
             path,
         )
+
+        # Sanitize the domain
+        domain = domain_sanitization(domain)
 
         # Print the domain and path
         print(f"Domain: {domain}")

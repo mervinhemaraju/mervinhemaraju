@@ -57,8 +57,8 @@ alias pip-req='pip-chill > requirements.txt'
 alias pip-unset='pip config unset global.index-url'
 
 # > Git Aliases
-alias git-load-domain-work="GITHUB_DOMAIN='github-dke'"
-alias git-load-domain-personal="GITHUB_DOMAIN='github-personal'"
+alias git-load-domain-work="export GITHUB_DOMAIN='github-dke'"
+alias git-load-domain-personal="export GITHUB_DOMAIN='github-personal'"
 alias git-load-config-work=fn_git_load_config_work
 alias git-load-config-personal=fn_git_load_config_personal
 alias git-clear-branches="git branch | grep -v '\bmain\b\|\bmaster\b\|\bdev\b\|\bstg\b\|\bstaging\b\|\bqa\b' | xargs git branch -D"
