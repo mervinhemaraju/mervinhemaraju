@@ -49,3 +49,20 @@ fn_git_load_config_personal()
 fn_aws_ca_versions() {
   aws codeartifact list-package-versions --package "$1" --repository euw1pypackages --domain cko-it-packages --format pypi | jq '.versions[] | .version'
 }
+
+# > OCI Functions
+oci_zeus() {
+    oci "$@" --profile ZEUS --compartment-id $OCI_ZEUS_PRODUCTION_CID
+}
+
+oci_poseidon() {
+    oci "$@" --profile POSEIDON --compartment-id $OCI_POSEIDON_PRODUCTION_CID
+}
+
+oci_gaia() {
+    oci "$@" --profile GAIA --compartment-id $OCI_GAIA_PRODUCTION_CID
+}
+
+oci_helios() {
+    oci "$@" --profile HELIOS --compartment-id $OCI_HELIOS_PRODUCTION_CID
+}

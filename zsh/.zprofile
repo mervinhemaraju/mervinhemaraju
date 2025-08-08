@@ -73,7 +73,7 @@ alias kctx="kubectx"
 alias kns="kubens"
 
 # > ArgoCD
-alias argo-admin-secret="kgsec argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
+alias argo-admin-secret="kgsec -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
 alias argo-pf="k port-forward service/argocd-server -n argocd 8080:443"
 
 # > Pre Commit
@@ -90,6 +90,12 @@ alias pass="py $DOTFILES/scripts/python/functions/password_generator.py"
 alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
 alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"
 alias oci-ampere-finder="~/Dotfiles/scripts/python/oci-ampere-finder/exec.sh"
+
+# > OCI
+alias oci-zeus=oci_zeus
+alias oci-poseidon=oci_poseidon
+alias oci-gaia=oci_gaia
+alias oci-helios=oci_helios
 
 # * Aws configs
 alias aws-region-default="export AWS_REGION=eu-west-1"

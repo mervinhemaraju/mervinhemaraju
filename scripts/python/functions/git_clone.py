@@ -71,13 +71,11 @@ def path_sanitization(domain: str, path: str) -> str:
 
     # If domain is github
     elif domain == "github.com":
-        # Check if the path starts with "mervinhemaraju/"
-        if path.startswith("mervinhemaraju/"):
-            # Remove the "mervinhemaraju/" part from the path
-            path = path[15:]
-
-            # Return a different path for this specific case
+        # Check if the path starts with "mervinhemaraju/" or "plagueworks-org/"
+        if path.startswith("mervinhemaraju/") or path.startswith("plagueworks-org/"):
+            # Return a different path for these specific cases
             return PERSONAL_DIR.format(path)
+        # Otherwise, return the default work path for github
         return WORK_DIR.format(f"github/{path}")
     else:
         raise ValueError(f"Unsupported domain: {domain}.")

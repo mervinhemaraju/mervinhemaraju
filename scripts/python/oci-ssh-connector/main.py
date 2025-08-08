@@ -6,13 +6,13 @@ import fileinput
 import sys
 from dopplersdk import DopplerSDK
 
-SECRETS_MAIN_PROJECT_NAME = "cloud-iac-main"
-SECRETS_MAIN_CONFIG = "prd"
+SECRETS_PROJECT_CLOUD_OCI = "cloud-oci-creds"
+SECRETS_CONFIG = "prd"
 DOPPLER_MAIN_TOKEN = os.environ["DOPPLER_MAIN_TOKEN"]
 COMPUTE_SSH_PRIVATE_KEY_PATH = os.environ["COMPUTE_SSH_PRIVATE_KEY_PATH"]
 SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 
-accounts = ["gaia", "helios", "poseidon"]
+accounts = ["gaia", "helios", "poseidon", "zeus"]
 regions = ["af-johannesburg-1", "uk-london-1"]
 usernames = ["th3pl4gu3", "opc"]
 
@@ -71,8 +71,8 @@ def make_a_choice(message, choices):
 
 def extract_secret(secrets, name):
     return secrets.get(
-        project=SECRETS_MAIN_PROJECT_NAME,
-        config=SECRETS_MAIN_CONFIG,
+        project=SECRETS_PROJECT_CLOUD_OCI,
+        config=SECRETS_CONFIG,
         name=name,
     ).value["raw"]
 
@@ -90,8 +90,8 @@ def generate_oci_config(selected_account, selected_region, secrets):
     #  Retrieve account info from secrets
     user_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_USER_OCID")
     tenancy_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_TENANCY_OCID")
-    key_content = extract_secret(secrets, f"OCI_{selected_account.upper()}_PRIVATE_KEY")
-    fingerprint = extract_secret(secrets, f"OCI_{selected_account.upper()}_FINGERPRINT")
+    key_content = extract_secret(secrets, "OCI_API_KEY_PRIVATE")
+    fingerprint = extract_secret(secrets, "OCI_API_FINGERPRINT")
 
     # Return the config
     return {
@@ -266,9 +266,7 @@ def main():
     )
 
     # Retrive the compute ssh pub key
-    compute_ssh_pub_key = extract_secret(
-        secrets, f"OCI_{selected_account.upper()}_COMPUTE_KEY_PUBLIC"
-    )
+    compute_ssh_pub_key = extract_secret(secrets, "OCI_COMPUTE_KEY_PUBLIC")
 
     # Get all active sessions for this bastion
     active_sessions = get_active_sessions(

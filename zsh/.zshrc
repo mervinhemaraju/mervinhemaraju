@@ -8,13 +8,16 @@ export PATH="$PATH:/opt/homebrew/bin/" # * Path to homebrew installations
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/flutter/bin:$PATH"
 export PATH="$PATH":"$HOME/.pub-cache/bin"
-# export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH" # * Path to postgresql installations
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" # * Path to postgresql installations
+export PATH="/opt/homebrew/opt/node@22/bin:$PATH" # * Path to node installations
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables
 export KEYS="$HOME/MyKeys" # * Path to SSH Keys
 export PROJECTS="$HOME/Projects" # * Path to Projects
 export ANSIBLE_CONFIG="$HOME/.ansible.cfg" # * Path to ansible config file
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+export KUBECONFIG=~/.kube/configs/exoscale:~/.kube/configs/oci_poseidon:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube
 # export GRANTED_ENABLE_AUTO_REASSUME=true # * Auto re assume roles for granted
 
 # Set name of the theme to load --- if set to "random", it will
@@ -131,3 +134,10 @@ figlet -cf slant "TH3PL4GU3" | lolcat
 # > Evals
 eval "$(starship init zsh)" # * Starship init
 eval "$(zoxide init zsh)" # * Zoxide init
+
+# > Others
+[[ -s "$HOME/.profile" ]] && source "$HOME/.profile" # Load the default .profile
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+[[ -e "/Users/mervinhemaraju/lib/oci_autocomplete.sh" ]] && source "/Users/mervinhemaraju/lib/oci_autocomplete.sh"
