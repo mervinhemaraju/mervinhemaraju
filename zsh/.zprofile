@@ -45,6 +45,14 @@ alias find='fd'
 alias dig='doggo'
 alias rmf='rm -rf'
 
+# > Flutter & Dart aliases
+alias f='flutter'
+alias fpg='f pub get'
+alias fr='f run'
+alias fd='f doctor'
+alias fdv='f doctor -v'
+alias drb='dart run build_runner build'
+
 # > Python Aliases
 alias python='python3.11'
 alias py='python3.11'
@@ -102,6 +110,9 @@ alias aws-region-default="export AWS_REGION=eu-west-1"
 alias aws-region-switch=fn_aws_switch_region
 alias aws-get-account='python $EXECS/aws-account-identifier.py'
 alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
+
+# * Vercel
+alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
 
 # * Aws authenticate
 # alias aws-login="aws-login-na && aws-login-legacy"

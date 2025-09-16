@@ -81,7 +81,7 @@ def path_sanitization(domain: str, path: str) -> str:
         raise ValueError(f"Unsupported domain: {domain}.")
 
 
-def domain_sanitization(domain: str) -> str:
+def domain_sanitization(git_url: str, domain: str) -> str:
     # Add any extra sanitization logic for specific domains here
 
     # Check if the domain is github
@@ -91,13 +91,14 @@ def domain_sanitization(domain: str) -> str:
 
         # Check if github_domain is not None
         if github_domain is not None:
-            # Return the sanitized domain
-            return github_domain
+            # Replace the new domain in the url and return it
+            return git_url.replace("github.com", github_domain)
         else:
             # If the env var is not set, raise an exception
             raise ValueError("GITHUB_DOMAIN environment variable is not set.")
 
-    return domain
+    # Returns the git url
+    return git_url
 
 
 def main():
@@ -121,15 +122,16 @@ def main():
             path,
         )
 
-        # Sanitize the domain
-        domain = domain_sanitization(domain)
+        # Sanitize the domain and get the new url
+        new_git_url = domain_sanitization(git_url=git_url, domain=domain)
 
         # Print the domain and path
+        print(f"Git URL: {new_git_url}")
         print(f"Domain: {domain}")
         print(f"Path: {path}")
 
         # Clone the git repository
-        os.system(f"git clone {git_url} {path}")
+        os.system(f"git clone {new_git_url} {path}")
 
     except Exception as e:
         # Handle any exceptions that occur
