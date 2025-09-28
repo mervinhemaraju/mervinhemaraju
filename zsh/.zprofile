@@ -46,11 +46,11 @@ alias dig='doggo'
 alias rmf='rm -rf'
 
 # > Flutter & Dart aliases
-alias f='flutter'
-alias fpg='f pub get'
-alias fr='f run'
-alias fd='f doctor'
-alias fdv='f doctor -v'
+alias fl='flutter'
+alias fpg='fl pub get'
+alias fr='fl run'
+alias fd='fl doctor'
+alias fdv='fl doctor -v'
 alias drb='dart run build_runner build'
 
 # > Python Aliases

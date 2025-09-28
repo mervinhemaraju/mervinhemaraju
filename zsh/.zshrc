@@ -11,6 +11,9 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" # * Path to postgresql installations
 export PATH="/opt/homebrew/opt/node@22/bin:$PATH" # * Path to node installations
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH" # * Path to jdk installation
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables
 export KEYS="$HOME/MyKeys" # * Path to SSH Keys
@@ -18,6 +21,7 @@ export PROJECTS="$HOME/Projects" # * Path to Projects
 export ANSIBLE_CONFIG="$HOME/.ansible.cfg" # * Path to ansible config file
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 export KUBECONFIG=~/.kube/configs/exoscale:~/.kube/configs/oci_poseidon:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17"
 # export GRANTED_ENABLE_AUTO_REASSUME=true # * Auto re assume roles for granted
 
 # Set name of the theme to load --- if set to "random", it will

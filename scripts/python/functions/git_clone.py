@@ -72,7 +72,10 @@ def path_sanitization(domain: str, path: str) -> str:
     # If domain is github
     elif domain == "github.com":
         # Check if the path starts with "mervinhemaraju/" or "plagueworks-org/"
-        if path.startswith("mervinhemaraju/") or path.startswith("plagueworks-org/"):
+        if (
+            path.startswith("mervinhemaraju/")
+            or path.startswith("plagueworks-org/")
+        ):
             # Return a different path for these specific cases
             return PERSONAL_DIR.format(path)
         # Otherwise, return the default work path for github

@@ -15,6 +15,7 @@ dart-sdk
 doggo
 doppler
 exoscale-cli
+ffind
 figlet
 gettext
 go
@@ -70,7 +71,7 @@ yq
 zoxide
 zstd
 android-platform-tools
-android-studio
+container
 docker
 docker-desktop
 firefox
