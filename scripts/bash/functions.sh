@@ -66,3 +66,9 @@ oci_gaia() {
 oci_helios() {
     oci "$@" --profile HELIOS --compartment-id $OCI_HELIOS_PRODUCTION_CID
 }
+
+# > Google Cloud functions
+gsetproject() {
+  # $1 is the first argument you provide to the function
+  gcloud config set project $(gcloud projects list --filter="NAME='$1'" --format="value(PROJECT_ID)")
+}

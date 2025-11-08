@@ -33,7 +33,7 @@ style = "bold #7fb7ff"
 
 [gcloud]
 disabled = false
-symbol = "G"
+format = '[G-$active \($project\)]($style) '
 style = "bold yellow"
 
 [directory]

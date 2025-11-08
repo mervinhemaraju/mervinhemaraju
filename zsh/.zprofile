@@ -51,6 +51,7 @@ alias fpg='fl pub get'
 alias fr='fl run'
 alias fd='fl doctor'
 alias fdv='fl doctor -v'
+alias drw='dart run build_runner watch'
 alias drb='dart run build_runner build'
 
 # > Python Aliases
@@ -104,6 +105,14 @@ alias oci-zeus=oci_zeus
 alias oci-poseidon=oci_poseidon
 alias oci-gaia=oci_gaia
 alias oci-helios=oci_helios
+
+# > GCP
+alias gcca="gcloud config configurations activate"
+alias gccl="gcloud config configurations list"
+alias gccc="gcloud config configurations create"
+alias gccd="gcloud config configurations delete"
+alias gsp='gsetproject'
+alias gpl='gcloud projects list --format="table(projectId, name)"'
 
 # * Aws configs
 alias aws-region-default="export AWS_REGION=eu-west-1"
