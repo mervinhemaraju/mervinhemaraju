@@ -107,6 +107,8 @@ alias oci-gaia=oci_gaia
 alias oci-helios=oci_helios
 
 # > GCP
+# alias gauth-dke="gcloud auth login --login-config=$HOME/.gcp/dke/config.json --no-launch-browser"
+alias gauth-dke="BROWSER=~/scripts/bash/firefox-dke-gcp gcloud auth login --login-config=$HOME/.gcp/dke/config.json"
 alias gcca="gcloud config configurations activate"
 alias gccl="gcloud config configurations list"
 alias gccc="gcloud config configurations create"
@@ -122,6 +124,9 @@ alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
 # * Vercel
 alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
+
+# * Antigravity
+alias ag="antigravity"
 
 # * Aws authenticate
 # alias aws-login="aws-login-na && aws-login-legacy"

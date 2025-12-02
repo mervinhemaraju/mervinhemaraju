@@ -1,0 +1,5 @@
+#!/bin/bash
+# Get the last argument (the URL), ignoring flags like --new-tab
+url="${@: -1}"
+encoded_url=$(printf '%s' "$url" | jq -sRr @uri)
+/opt/homebrew/bin/firefox "ext+container:name=dke-aws&url=$encoded_url"

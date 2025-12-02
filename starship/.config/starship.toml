@@ -26,10 +26,10 @@ disabled = false
 symbol = "☁️ "
 style = "bold #ffcc67"
 
-[azure]
-disabled = false
-symbol = "☁️ "
-style = "bold #7fb7ff"
+# [azure]
+# disabled = false
+# symbol = "☁️ "
+# style = "bold #7fb7ff"
 
 [gcloud]
 disabled = false

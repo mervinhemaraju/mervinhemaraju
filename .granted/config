@@ -1,8 +1,14 @@
 DefaultBrowser = "FIREFOX"
-CustomBrowserPath = "/opt/homebrew/bin/firefox"
-CustomSSOBrowserPath = "/opt/homebrew/bin/firefox"
+CustomBrowserPath = '/Users/mervinhemaraju/scripts/bash/firefox-dke-aws'
+CustomSSOBrowserPath = '/Users/mervinhemaraju/scripts/bash/firefox-dke-aws'
 Ordering = ""
 ExportCredentialSuffix = ""
 
 [Keyring]
   Backend = "keychain"
+
+[Cache]
+  CredentialProcessCache = true
+
+[AccessRequest]
+  AutoApproved = false

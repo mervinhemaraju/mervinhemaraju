@@ -14,13 +14,14 @@ export PATH="/opt/homebrew/opt/node@22/bin:$PATH" # * Path to node installations
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH" # * Path to jdk installation
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
+export PATH="$(brew --prefix helm@3)/bin:$PATH"
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables
 export KEYS="$HOME/MyKeys" # * Path to SSH Keys
 export PROJECTS="$HOME/Projects" # * Path to Projects
 export ANSIBLE_CONFIG="$HOME/.ansible.cfg" # * Path to ansible config file
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export KUBECONFIG=~/.kube/configs/exoscale:~/.kube/configs/oci_poseidon:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube
+export KUBECONFIG=~/.kube/configs/gke_cockpit_prod:~/.kube/configs/oci_poseidon:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube
 export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
 export CLOUDSDK_PYTHON="/opt/homebrew/bin//python3.11" # Google Cloud python path 
 # export GRANTED_ENABLE_AUTO_REASSUME=true # * Auto re assume roles for granted
@@ -150,3 +151,6 @@ fpath=(/Users/mervinhemaraju/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+
+# Added by Antigravity
+export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
