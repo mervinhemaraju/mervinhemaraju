@@ -154,3 +154,6 @@ compinit
 
 # Added by Antigravity
 export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"

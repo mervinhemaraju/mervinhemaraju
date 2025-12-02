@@ -22,18 +22,17 @@ source ~/.secrets
 # > Terminal Aliases
 alias terminal-restart='exec zsh -l && assume --unset'
 
+# > Brew Aliases
+alias cleanup='brew cleanup'
+alias upgrade='brew update && brew upgrade && brew list > $DOTFILES/brew_list.txt'
+alias upgrade-all='upgrade && update-install'
+
 # > System Related
 alias clip='pbcopy'
 alias throw='pbpaste >'
 alias update-list='softwareupdate --list'
 alias update-install='softwareupdate --install'
 alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
-
-# > Brew Aliases
-alias cleanup='brew cleanup'
-alias upgrade='brew update && brew upgrade && brew list > $DOTFILES/brew_list.txt'
-alias upgrade-all='upgrade && update-install'
-
 alias cat='bat -p'
 alias la='lsd -al --color=always --group-directories-first'
 alias ls='lsd -a --color=always --group-directories-first'
@@ -44,6 +43,10 @@ alias cd='z'
 alias find='fd'
 alias dig='doggo'
 alias rmf='rm -rf'
+
+# > IDE aliases
+alias vscode="/opt/homebrew/bin/code"
+alias code="agy"
 
 # > Flutter & Dart aliases
 alias fl='flutter'
@@ -89,16 +92,23 @@ alias argo-pf="k port-forward service/argocd-server -n argocd 8080:443"
 alias pca="pre-commit run --all-files"
 
 # > Terraform Docs
-# alias tfdocs="pre-commit run --all-files"
+alias tfdocs="terraform-docs"
+alias tfdocs-gen="terraform-docs markdown table --output-file README.md --output-mode inject ."
 
 # > Other Tools
 alias pass="py $DOTFILES/scripts/python/functions/password_generator.py"
 
 # > AWS 
-# * Scripts
+# * scripts
 alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
 alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"
 alias oci-ampere-finder="~/Dotfiles/scripts/python/oci-ampere-finder/exec.sh"
+
+# * configs
+alias aws-region-default="export AWS_REGION=eu-west-1"
+alias aws-region-switch=fn_aws_switch_region
+alias aws-get-account='python $EXECS/aws-account-identifier.py'
+alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
 # > OCI
 alias oci-zeus=oci_zeus
@@ -116,19 +126,21 @@ alias gccd="gcloud config configurations delete"
 alias gsp='gsetproject'
 alias gpl='gcloud projects list --format="table(projectId, name)"'
 
-# * Aws configs
-alias aws-region-default="export AWS_REGION=eu-west-1"
-alias aws-region-switch=fn_aws_switch_region
-alias aws-get-account='python $EXECS/aws-account-identifier.py'
-alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
-
-# * Vercel
+# > Vercel
 alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
 
-# * Antigravity
-alias ag="antigravity"
+# > Cloudflare
+alias warp="warp-cli"
+alias warpc="warp-cli connect"
+alias warpdc="warp-cli disconnect"
 
-# * Aws authenticate
+
+
+
+# ============================================= #
+# ================  Deprecated ================ #
+# ============================================= #
+
 # alias aws-login="aws-login-na && aws-login-legacy"
 # alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-session-duration 43200 -bz --all-profiles"
 # alias aws-login-legacy="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_LEGACY --aws-session-duration 43200 -bz --all-profiles"
@@ -139,15 +151,10 @@ alias ag="antigravity"
 # alias aws-login-ccp-dev="okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA --aws-iam-idp $AWS_IDP_NA_CCP_DEV -bz --profile cko-na-ccp-dev"
 # alias aws-login-na="export AWS_REGION=eu-west-1 && okta-aws-cli --aws-acct-fed-app-id $OKTA_AWS_ACCOUNT_FEDERATION_APP_ID_NA -bz --all-profiles"
 
-# * Mass login
 # alias aws-login-basics="aws-prod-legacy & aws-dev & aws-mgmt &"
 # alias aws-login="aws-auth-legacy --all-profiles"
 # alias aws-login-all="aws-prod-legacy & aws-dev & aws-mgmt & aws-sbox & aws-qa & aws-prod & aws-na-playground &"
 
-# * Aws Service Login
 # alias aws-ca-versions="fn_aws_ca_versions"
 # alias aws-ca-login="aws codeartifact login --tool pip --repository euw1pypackages --domain cko-it-packages --domain-owner $(fn_aws_current_account) --region $AWS_REGION"
 # alias aws-ecr-login="aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com"
-
-# * Nektos / Act
-# alias act-cko-it="act -P $(fn_aws_current_account).dkr.ecr.eu-west-1.amazonaws.com/cko-core-platform/github-action-runner-cko-it:1.7.0 -s GITHUB_TOKEN=$GITHUB_CKO_WORKFLOWS"
