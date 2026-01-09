@@ -83,6 +83,7 @@ alias kust="k kustomize"
 alias mk="minikube"
 alias kctx="kubectx"
 alias kns="kubens"
+alias kgpar="k get pods --all-namespaces -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,CPU_REQUEST:.spec.containers[*].resources.requests.cpu,MEMORY_REQUEST:.spec.containers[*].resources.requests.memory'"
 
 # > ArgoCD
 alias argo-admin-secret="kgsec -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"

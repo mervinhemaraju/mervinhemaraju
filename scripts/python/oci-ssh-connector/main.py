@@ -1,19 +1,29 @@
+from asyncio.log import logger
 import os
 import re
+import sys
 import oci
 import cutie
 import fileinput
-import sys
+import logging
 from dopplersdk import DopplerSDK
+from models.oci_oke import OciOke
+from models.oci_bastion import OciBastion
+from models.oci_instance import OciInstance
+from core.accounts import Accounts
+from core.connection_type import ConnectionType
+from utils.mappings import ACCOUNT_REGION_MAPPING
 
+# Set logging level
+logging.basicConfig(level=logging.INFO)
+
+# Set variables
 SECRETS_PROJECT_CLOUD_OCI = "cloud-oci-creds"
 SECRETS_CONFIG = "prd"
 DOPPLER_MAIN_TOKEN = os.environ["DOPPLER_MAIN_TOKEN"]
 COMPUTE_SSH_PRIVATE_KEY_PATH = os.environ["COMPUTE_SSH_PRIVATE_KEY_PATH"]
 SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 
-accounts = ["gaia", "helios", "poseidon", "zeus"]
-regions = ["af-johannesburg-1", "uk-london-1"]
 usernames = ["th3pl4gu3", "opc"]
 
 
@@ -63,7 +73,7 @@ def make_a_choice(message, choices):
     selection = choices[index]
 
     # Show output
-    print(f"{selection} has been selected. \n")
+    logging.info(f"{selection} has been selected. \n")
 
     # Return the choice
     return index, selection
@@ -103,147 +113,43 @@ def generate_oci_config(selected_account, selected_region, secrets):
     }
 
 
-def select_instance(secrets, selected_account, compute_client):
-    # List instances
-    instances = compute_client.list_instances(
-        compartment_id=extract_secret(
-            secrets, f"OCI_{selected_account.upper()}_COMPARTMENT_PRODUCTION_ID"
-        ),
-        lifecycle_state="RUNNING",
-    ).data
-
-    # Get instance names
-    instances_names = [instance.display_name for instance in instances]
-
-    # Get choice from user
-    selected_instace_index, _ = make_a_choice(
-        message="Please choose the instance you want to connect to:",
-        choices=instances_names,
-    )
-
-    # Return the selected instance
-    return instances[selected_instace_index]
-
-
-def select_bastion(secrets, selected_account, bastion_client):
-    # Get a list of bastion available
-    bastions = bastion_client.list_bastions(
-        compartment_id=extract_secret(
-            secrets, f"OCI_{selected_account.upper()}_COMPARTMENT_PRODUCTION_ID"
-        ),
-        bastion_lifecycle_state="ACTIVE",
-    ).data
-
-    # Get bastion names
-    bastion_names = [bastion.name for bastion in bastions]
-
-    # Get choice from user
-    selected_bastion_index, _ = make_a_choice(
-        message="Please choose the bastion you want to jump to:",
-        choices=bastion_names,
-    )
-
-    # Return the selected bastion
-    return bastions[selected_bastion_index]
-
-
-def get_active_sessions(
-    bastion_client, selected_instance, selected_bastion, selected_username
-):
-    # Get a list of sessions available for this bastion
-    sessions = bastion_client.list_sessions(
-        bastion_id=selected_bastion.id,
-        session_lifecycle_state="ACTIVE",
-    ).data
-
-    # Retrieve sessions that matches the target and return it
-    return [
-        session
-        for session in sessions
-        if session.target_resource_details.target_resource_id == selected_instance.id
-        and session.target_resource_details.target_resource_operating_system_user_name
-        == selected_username
-    ]
-
-
-def create_session(
-    bastion_client,
-    selected_bastion,
-    selected_instance,
-    selected_username,
-    compute_ssh_pub_key,
-):
-    create_session_response = bastion_client.create_session(
-        create_session_details=oci.bastion.models.CreateSessionDetails(
-            bastion_id=selected_bastion.id,
-            target_resource_details=oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
-                session_type="MANAGED_SSH",
-                target_resource_operating_system_user_name=selected_username,
-                target_resource_id=selected_instance.id,
-                target_resource_port=22,
-            ),
-            key_details=oci.bastion.models.PublicKeyDetails(
-                public_key_content=compute_ssh_pub_key
-            ),
-            display_name=f"ssh-connection-{selected_instance.display_name.lower()}",
-            key_type="PUB",
-            session_ttl_in_seconds=10800,
-        )
-    )
-
-    # Get the bastion session
-    get_session_response = bastion_client.get_session(
-        session_id=create_session_response.data.id
-    )
-
-    # Wait for session to become active
-    oci.wait_until(
-        bastion_client,
-        get_session_response,
-        "lifecycle_state",
-        "ACTIVE",
-        max_interval_seconds=15,
-        max_wait_seconds=600,
-    )
-
-    # Retrieve the session id
-    return get_session_response.data.id
-
-
-def get_ssh_command(bastion_client, session_id):
-    # Retrieve the ssh command
-    ssh_command = bastion_client.get_session(session_id=session_id).data.ssh_metadata[
-        "command"
-    ]
-
-    # Replace the private key path adn return the ssh command
-    return ssh_command.replace("<privateKey>", COMPUTE_SSH_PRIVATE_KEY_PATH)
-
-
 def main():
-    # Get the account from user choice
-    _, selected_account = make_a_choice(
-        message="Please choose an OCI account:", choices=accounts
-    )
-
-    # Get the region from user choice
-    _, selected_region = make_a_choice(
-        message="Please choose an OCI region:", choices=regions
-    )
-
-    # Get the username from user choice
-    _, selected_username = make_a_choice(
-        message="Please choose a username:", choices=usernames
-    )
+    # Define an empty list of active_bastion_sessions
+    active_bastion_sessions = []
+    session_target_resource = None
+    session_name = None
 
     # Get the secrets
     secrets = get_secrets()
 
+    _, sa = make_a_choice(
+        message="Please choose an OCI account:", choices=Accounts.values()
+    )
+
+    # Convert the account to enum
+    selected_account = Accounts(sa)
+
+    # Determine the compartment id
+    compartment_id = extract_secret(
+        secrets, f"OCI_{selected_account.value.upper()}_COMPARTMENT_PRODUCTION_ID"
+    )
+
+    # Get the connection type from user choice
+    _, sct = make_a_choice(
+        message="Please choose a connection type:", choices=ConnectionType.values()
+    )
+
+    # Convert the connection type to enum
+    selected_connection_type = ConnectionType(sct)
+
+    # Retrieve the region
+    selected_region = ACCOUNT_REGION_MAPPING[selected_account]
+
     # Get the OCI config
     config = generate_oci_config(
         secrets=secrets,
-        selected_account=selected_account,
-        selected_region=selected_region,
+        selected_account=selected_account.value,
+        selected_region=selected_region.value,
     )
 
     # Validate oci config
@@ -252,43 +158,153 @@ def main():
     # Create a compute client
     compute = oci.core.ComputeClient(config)
 
-    # Get the selected instance data
-    selected_instance = select_instance(
-        secrets=secrets, selected_account=selected_account, compute_client=compute
-    )
-
     # Create a bastion client
     bastion = oci.bastion.BastionClient(config)
 
+    # List the bastions
+    bastions = OciBastion.list_bastions(
+        oci_config=config,
+        compartment_id=compartment_id,
+    )
+
+    # If there are no bastions
+    if len(bastions) == 0:
+        logging.error(f"No bastions found in account {selected_account.value}")
+        exit(0)
+
     # Get the selected bastion
-    selected_bastion = select_bastion(
-        secrets=secrets, selected_account=selected_account, bastion_client=bastion
+    # Get choice from user
+    selected_bastion_index, _ = make_a_choice(
+        message="Please choose the bastion you want to jump to:",
+        choices=[bastion.name for bastion in bastions],
     )
 
-    # Retrive the compute ssh pub key
-    compute_ssh_pub_key = extract_secret(secrets, "OCI_COMPUTE_KEY_PUBLIC")
+    # Return the selected bastion
+    selected_bastion = bastions[selected_bastion_index]
 
-    # Get all active sessions for this bastion
-    active_sessions = get_active_sessions(
-        bastion_client=bastion,
-        selected_bastion=selected_bastion,
-        selected_instance=selected_instance,
-        selected_username=selected_username,
+    # Create a bastion object
+    bastion_object = OciBastion(
+        oci_config=config,
+        selected_bastion_details=selected_bastion,
     )
+
+    # Check if the connection type is node
+    if selected_connection_type == ConnectionType.K8_API:
+        # List the clusters
+        clusters = OciOke.list_clusters(
+            oci_config=config,
+            compartment_id=compartment_id,
+        )
+
+        # If there are no clusters
+        if len(clusters) == 0:
+            logging.error(f"No clusters found in account {selected_account.value}")
+            exit(0)
+
+        # Get the cluster from user choice
+        _, selected_cluster = make_a_choice(
+            message="Please choose a cluster:",
+            choices=[
+                f"{cluster.name}:{cluster.endpoints.private_endpoint}"
+                for cluster in clusters
+            ],
+        )
+
+        # Get the selected cluster split
+        selected_cluster_split = selected_cluster.split(":")
+
+        # Get the cluster name
+        selected_cluster_name = selected_cluster_split[0]
+
+        # Get the cluster ip
+        selected_cluster_ip = selected_cluster_split[1]
+
+        # Get the cluster port
+        selected_cluster_port = selected_cluster_split[2]
+
+        # Get active bastion pf sessions
+        active_sessions = bastion_object.get_active_pf_sessions(
+            target_ip=selected_cluster_ip,
+            target_port=selected_cluster_port,
+        )
+
+        # Add the active sessions to the list
+        active_bastion_sessions.extend(active_sessions)
+
+        # Set the target resource details
+        session_target_resource = (
+            oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
+                session_type="PORT_FORWARDING",
+                target_resource_private_ip_address=selected_cluster_ip,
+                target_resource_port=int(selected_cluster_port),
+            )
+        )
+
+        # Set the session name
+        session_name = (
+            f"k8-api-connection-{selected_cluster_name}-{selected_cluster_port}"
+        )
+
+    else:
+        # Get the username from user choice
+        _, selected_username = make_a_choice(
+            message="Please choose a username:", choices=usernames
+        )
+
+        # Create a new instance object
+        instances = OciInstance.list_instances(
+            oci_config=config,
+            compartment_id=compartment_id,
+        )
+
+        # Get the instance names
+        instances_names = [instance.display_name for instance in instances]
+
+        # Get choice from user
+        selected_instace_index, _ = make_a_choice(
+            message="Please choose the instance you want to connect to:",
+            choices=instances_names,
+        )
+
+        # Get the selected instance
+        selected_instance = instances[selected_instace_index]
+
+        # Get all active sessions for this bastion
+        active_sessions = bastion_object.get_active_node_sessions(
+            selected_instance=selected_instance,
+            selected_username=selected_username,
+        )
+
+        # Add the active sessions to the list
+        active_bastion_sessions.extend(active_sessions)
+
+        # Set the target resource details
+        session_target_resource = (
+            oci.bastion.models.CreateManagedSshSessionTargetResourceDetails(
+                session_type="MANAGED_SSH",
+                target_resource_operating_system_user_name=selected_username,
+                target_resource_id=selected_instance.id,
+                target_resource_port=22,
+            )
+        )
+
+        # Set the session name
+        session_name = f"ssh-connection-{selected_instance.display_name.lower()}"
 
     # If there are no active sessions
     # create a new one
-    if len(active_sessions) == 0:
+    if len(active_bastion_sessions) == 0:
         # Print message
         print("There are no active sessions. Creating one...")
 
+        # Retrive the compute ssh pub key
+        compute_ssh_pub_key = extract_secret(secrets, "OCI_COMPUTE_KEY_PUBLIC")
+
         # Create the session
-        session_id = create_session(
-            bastion_client=bastion,
-            selected_bastion=selected_bastion,
-            selected_instance=selected_instance,
-            selected_username=selected_username,
+        session_id = bastion_object.create_session(
+            target_resource_details=session_target_resource,
             compute_ssh_pub_key=compute_ssh_pub_key,
+            connection_name=session_name,
         )
     else:
         # Print message
@@ -298,23 +314,32 @@ def main():
         session_id = active_sessions[0].id
 
     # Get the ssh command
-    ssh_command = get_ssh_command(bastion_client=bastion, session_id=session_id)
-
-    # Extract the proxy command
-    proxy_command = extract_proxy_command(ssh_command)
-
-    # Retrieve the bastion IP
-    bastion_ip = retrieve_bastion_ip(ssh_command)
-
-    print(f"bi: {bastion_ip} pc: {proxy_command}")
-
-    # Replace the proxy command in the ssh config file
-    replace_proxy_command_for_host(
-        file_path=SSH_CONFIG_PATH,
-        host=selected_instance.display_name,
-        new_command=proxy_command,
-        bastion_ip=bastion_ip,
+    ssh_command = bastion_object.get_ssh_command(
+        session_id=session_id,
+        private_key_path=COMPUTE_SSH_PRIVATE_KEY_PATH,
     )
+
+    # if connection type is node
+    if selected_connection_type == ConnectionType.K8_API:
+        # Replace the local port
+        ssh_command = ssh_command.replace("<localPort>", selected_cluster_port)
+
+    else:
+        # Extract the proxy command
+        proxy_command = extract_proxy_command(ssh_command)
+
+        # Retrieve the bastion IP
+        bastion_ip = retrieve_bastion_ip(ssh_command)
+
+        print(f"bi: {bastion_ip} pc: {proxy_command}")
+
+        # Replace the proxy command in the ssh config file
+        replace_proxy_command_for_host(
+            file_path=SSH_CONFIG_PATH,
+            host=selected_instance.display_name,
+            new_command=proxy_command,
+            bastion_ip=bastion_ip,
+        )
 
     # Print the command
     print(f"SSH command: {ssh_command}")
