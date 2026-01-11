@@ -1,17 +1,18 @@
-from asyncio.log import logger
 import os
-import re
-import sys
 import oci
-import cutie
-import fileinput
 import logging
-from dopplersdk import DopplerSDK
 from models.oci_oke import OciOke
 from models.oci_bastion import OciBastion
 from models.oci_instance import OciInstance
+from models.doppler_secrets import DopplerSecrets
 from core.accounts import Accounts
 from core.connection_type import ConnectionType
+from core.functions import (
+    make_a_choice,
+    extract_proxy_command,
+    replace_proxy_command_for_host,
+    retrieve_bastion_ip,
+)
 from utils.mappings import ACCOUNT_REGION_MAPPING
 
 # Set logging level
@@ -27,100 +28,18 @@ SSH_CONFIG_PATH = os.environ["SSH_CONFIG_PATH"]
 usernames = ["th3pl4gu3", "opc"]
 
 
-def retrieve_bastion_ip(command):
-    ip_pattern = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
-
-    ip_address = re.search(ip_pattern, command)
-
-    if ip_address:
-        return ip_address.group(0)
-
-
-def replace_proxy_command_for_host(file_path, host, new_command, bastion_ip):
-    # Reformat host name
-    host = f"oci-{host}".lower()
-    inside_host_block = False
-    with fileinput.input(files=(file_path), inplace=True, backup=".bak") as f:
-        for line in f:
-            stripped = line.strip()
-            if stripped.startswith("Host ") and host in stripped:
-                inside_host_block = True
-            if inside_host_block and stripped.startswith("ProxyCommand"):
-                line = "ProxyCommand " + new_command + "\n"
-            if inside_host_block and stripped.startswith("HostName"):
-                line = "HostName " + bastion_ip + "\n"
-            if stripped == "":
-                inside_host_block = False
-            sys.stdout.write(line)
-
-
-def extract_proxy_command(command):
-    match = re.search(r'ProxyCommand\s*=\s*"([^"]*)"', command)
-    if match:
-        return match.group(1)
-    else:
-        return None
-
-
-def make_a_choice(message, choices):
-    # Show question
-    print(message)
-
-    # Get the seelciton index
-    index = cutie.select(choices)
-
-    # Get choice from user
-    selection = choices[index]
-
-    # Show output
-    logging.info(f"{selection} has been selected. \n")
-
-    # Return the choice
-    return index, selection
-
-
-def extract_secret(secrets, name):
-    return secrets.get(
-        project=SECRETS_PROJECT_CLOUD_OCI,
-        config=SECRETS_CONFIG,
-        name=name,
-    ).value["raw"]
-
-
-def get_secrets():
-    # * Secrets manager Doppler
-    doppler = DopplerSDK()
-    doppler.set_access_token(DOPPLER_MAIN_TOKEN)
-
-    # * Return secrets
-    return doppler.secrets
-
-
-def generate_oci_config(selected_account, selected_region, secrets):
-    #  Retrieve account info from secrets
-    user_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_USER_OCID")
-    tenancy_id = extract_secret(secrets, f"OCI_{selected_account.upper()}_TENANCY_OCID")
-    key_content = extract_secret(secrets, "OCI_API_KEY_PRIVATE")
-    fingerprint = extract_secret(secrets, "OCI_API_FINGERPRINT")
-
-    # Return the config
-    return {
-        "user": user_id,
-        "key_content": key_content,
-        "fingerprint": fingerprint,
-        "tenancy": tenancy_id,
-        "region": selected_region,
-    }
-
-
 def main():
     # Define an empty list of active_bastion_sessions
     active_bastion_sessions = []
     session_target_resource = None
     session_name = None
 
-    # Get the secrets
-    secrets = get_secrets()
+    # Intiialize doppler secrets
+    doppler_oci_secrets = DopplerSecrets(
+        token=DOPPLER_MAIN_TOKEN,
+        project=SECRETS_PROJECT_CLOUD_OCI,
+        config=SECRETS_CONFIG,
+    )
 
     _, sa = make_a_choice(
         message="Please choose an OCI account:", choices=Accounts.values()
@@ -130,8 +49,8 @@ def main():
     selected_account = Accounts(sa)
 
     # Determine the compartment id
-    compartment_id = extract_secret(
-        secrets, f"OCI_{selected_account.value.upper()}_COMPARTMENT_PRODUCTION_ID"
+    compartment_id = doppler_oci_secrets.extract_secret(
+        f"OCI_{selected_account.value.upper()}_COMPARTMENT_PRODUCTION_ID"
     )
 
     # Get the connection type from user choice
@@ -146,20 +65,20 @@ def main():
     selected_region = ACCOUNT_REGION_MAPPING[selected_account]
 
     # Get the OCI config
-    config = generate_oci_config(
-        secrets=secrets,
-        selected_account=selected_account.value,
-        selected_region=selected_region.value,
-    )
+    config = {
+        "user": doppler_oci_secrets.extract_secret(
+            f"OCI_{selected_account.upper()}_USER_OCID"
+        ),
+        "key_content": doppler_oci_secrets.extract_secret("OCI_API_KEY_PRIVATE"),
+        "fingerprint": doppler_oci_secrets.extract_secret("OCI_API_FINGERPRINT"),
+        "tenancy": doppler_oci_secrets.extract_secret(
+            f"OCI_{selected_account.upper()}_TENANCY_OCID"
+        ),
+        "region": selected_region,
+    }
 
     # Validate oci config
     oci.config.validate_config(config)
-
-    # Create a compute client
-    compute = oci.core.ComputeClient(config)
-
-    # Create a bastion client
-    bastion = oci.bastion.BastionClient(config)
 
     # List the bastions
     bastions = OciBastion.list_bastions(
@@ -298,7 +217,9 @@ def main():
         print("There are no active sessions. Creating one...")
 
         # Retrive the compute ssh pub key
-        compute_ssh_pub_key = extract_secret(secrets, "OCI_COMPUTE_KEY_PUBLIC")
+        compute_ssh_pub_key = doppler_oci_secrets.extract_secret(
+            "OCI_COMPUTE_KEY_PUBLIC"
+        )
 
         # Create the session
         session_id = bastion_object.create_session(
@@ -343,6 +264,3 @@ def main():
 
     # Print the command
     print(f"SSH command: {ssh_command}")
-
-
-main()
