@@ -67,12 +67,12 @@ def main():
     # Get the OCI config
     config = {
         "user": doppler_oci_secrets.extract_secret(
-            f"OCI_{selected_account.upper()}_USER_OCID"
+            f"OCI_{selected_account.value.upper()}_USER_OCID"
         ),
         "key_content": doppler_oci_secrets.extract_secret("OCI_API_KEY_PRIVATE"),
         "fingerprint": doppler_oci_secrets.extract_secret("OCI_API_FINGERPRINT"),
         "tenancy": doppler_oci_secrets.extract_secret(
-            f"OCI_{selected_account.upper()}_TENANCY_OCID"
+            f"OCI_{selected_account.value.upper()}_TENANCY_OCID"
         ),
         "region": selected_region,
     }
