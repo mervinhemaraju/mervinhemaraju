@@ -245,6 +245,9 @@ def main():
         # Replace the local port
         ssh_command = ssh_command.replace("<localPort>", selected_cluster_port)
 
+        # Append & at the end of the command for background execution
+        ssh_command += " &"
+
     else:
         # Extract the proxy command
         proxy_command = extract_proxy_command(ssh_command)
