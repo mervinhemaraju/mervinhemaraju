@@ -13,7 +13,7 @@ from core.functions import (
     replace_proxy_command_for_host,
     retrieve_bastion_ip,
 )
-from utils.mappings import ACCOUNT_REGION_MAPPING
+from utils.mappings import ACCOUNT_REGION_MAPPING, K8_ENDPOINT_PORT_MAPPINGS
 
 # Set logging level
 logging.basicConfig(level=logging.INFO)
@@ -74,7 +74,7 @@ def main():
         "tenancy": doppler_oci_secrets.extract_secret(
             f"OCI_{selected_account.value.upper()}_TENANCY_OCID"
         ),
-        "region": selected_region,
+        "region": selected_region.value,
     }
 
     # Validate oci config
@@ -242,11 +242,20 @@ def main():
 
     # if connection type is node
     if selected_connection_type == ConnectionType.K8_API:
+        # Get the k8 endpoint port
+        k8_endpoint_port = K8_ENDPOINT_PORT_MAPPINGS[selected_account]
+
         # Replace the local port
-        ssh_command = ssh_command.replace("<localPort>", selected_cluster_port)
+        ssh_command = ssh_command.replace("<localPort>", k8_endpoint_port)
 
         # Append & at the end of the command for background execution
-        ssh_command += " &"
+        ssh_command += "&"
+
+        # Execute the command
+        os.system(ssh_command)
+
+        # Print message
+        logging.info("SSH command executed successfully")
 
     else:
         # Extract the proxy command
@@ -266,4 +275,4 @@ def main():
         )
 
     # Print the command
-    print(f"SSH command: {ssh_command}")
+    logging.info(f"SSH command: {ssh_command}")

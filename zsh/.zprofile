@@ -124,7 +124,7 @@ alias gcca="gcloud config configurations activate"
 alias gccl="gcloud config configurations list"
 alias gccc="gcloud config configurations create"
 alias gccd="gcloud config configurations delete"
-alias gsp='gsetproject'
+alias gsp='gcloud config set project'
 alias gpl='gcloud projects list --format="table(projectId, name)"'
 
 # > Vercel

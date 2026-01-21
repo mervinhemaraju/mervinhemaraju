@@ -7,3 +7,9 @@ ACCOUNT_REGION_MAPPING = {
     Accounts.GAIA: Regions.AF_JOHANNESBURG_1,
     Accounts.POSEIDON: Regions.UK_LONDON_1,
 }
+
+K8_ENDPOINT_PORT_MAPPINGS = {
+    Accounts.ZEUS: "6442",
+    Accounts.HELIOS: "6440",
+    Accounts.POSEIDON: "6441",
+}
