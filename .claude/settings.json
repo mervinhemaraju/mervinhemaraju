@@ -8,7 +8,9 @@
       "Bash(git rebase*)",
       "Bash(git add*)",
       "Bash(git reset --hard*)",
-      "Bash(git stash drop*)"
+      "Bash(terraform apply*)",
+      "Bash(terraform destroy*)",
+      "Bash(terraform force-unlock*)"
     ]
   }
 }
