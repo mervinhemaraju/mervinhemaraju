@@ -1,6 +1,7 @@
 # My Global Developer Preferences
 
 @~/.claude/rules/no-git.md
+@~/.claude/rules/no-auto-changes.md
 @~/.claude/rules/code-style.md
 
 ## My Stack

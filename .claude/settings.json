@@ -1,4 +1,5 @@
 {
+  "autoApprove": false,
   "permissions": {
     "deny": [
       "Bash(git commit*)",
