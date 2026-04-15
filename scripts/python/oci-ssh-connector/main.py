@@ -252,10 +252,10 @@ def main():
         ssh_command += "&"
 
         # Execute the command
-        os.system(ssh_command)
+        # os.system(ssh_command)
 
         # Print message
-        logging.info("SSH command executed successfully")
+        # logging.info("SSH command executed successfully")
 
     else:
         # Extract the proxy command

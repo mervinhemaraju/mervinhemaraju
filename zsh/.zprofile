@@ -43,10 +43,11 @@ alias cd='z'
 alias find='fd'
 alias dig='doggo'
 alias rmf='rm -rf'
+alias cpath='copypath'
 
 # > IDE aliases
 alias vscode="/opt/homebrew/bin/code"
-alias code="agy"
+alias code="antigravity"
 
 # > Flutter & Dart aliases
 alias fl='flutter'
@@ -82,7 +83,8 @@ alias greset="git reset --soft HEAD~1"
 alias kust="k kustomize"
 alias mk="minikube"
 alias kctx="kubectx"
-alias kns="kubens"
+alias kns='kubens'
+alias knsf='kns | grep -vE "gke-managed-cim|gke-managed-system|gke-managed-volumepopulator|gmp-public|gmp-system|kube-node-lease|kube-public|kube-system"'
 alias kgpar="k get pods --all-namespaces -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,CPU_REQUEST:.spec.containers[*].resources.requests.cpu,MEMORY_REQUEST:.spec.containers[*].resources.requests.memory'"
 
 # > ArgoCD

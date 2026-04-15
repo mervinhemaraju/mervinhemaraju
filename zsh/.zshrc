@@ -15,15 +15,22 @@ export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH" # * Path to jdk installatio
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 export PATH="$(brew --prefix helm@3)/bin:$PATH"
+
+# External SSD app binaries
+export PATH="/Volumes/mervin-ext-ssd/Applications/Docker.app/Contents/Resources/bin:$PATH"
+export PATH="/Volumes/mervin-ext-ssd/Applications/Antigravity.app/Contents/Resources/app/bin:$PATH"
+
 export DOTFILES="$HOME/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Execs" # * Path to executables
 export KEYS="$HOME/MyKeys" # * Path to SSH Keys
 export PROJECTS="$HOME/Projects" # * Path to Projects
+export PROJECTSEXT="/Volumes/mervin-ext-ssd/Projects" # * Path to Projects
 export ANSIBLE_CONFIG="$HOME/.ansible.cfg" # * Path to ansible config file
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
-export KUBECONFIG=~/.kube/configs/gke_cockpit_prod:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube:~/.kube/configs/oci_prod_zeus:~/.kube/configs/oci_dev_helios:~/.kube/configs/oci_mgmt_poseidon
+export KUBECONFIG=~/.kube/configs/gke_cockpit_prod:~/.kube/configs/aws_dke_dev:~/.kube/configs/minikube:~/.kube/configs/oci_prod_zeus:~/.kube/configs/oci_dev_helios:~/.kube/configs/oci_mgmt_poseidon:~/.kube/configs/vw-i-eur-pop-ireland
 export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
 export CLOUDSDK_PYTHON="/opt/homebrew/bin//python3.11" # Google Cloud python path 
+export GOBIN="$(go env GOPATH)/bin" # * Path to go bin
 # export GRANTED_ENABLE_AUTO_REASSUME=true # * Auto re assume roles for granted
 
 # Set name of the theme to load --- if set to "random", it will
@@ -92,7 +99,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(azure gcloud aws history git dotenv macos python terraform ansible docker docker-compose golang pip vscode vagrant kubectl minikube helm kubectx argocd zsh-autosuggestions zsh-docker-aliases zsh-syntax-highlighting)
+plugins=(azure ansible argocd alias-finder aws copypath dotenv docker docker-compose gcloud history git macos python terraform golang pip vscode vagrant kubectl minikube helm kubectx zsh-autosuggestions zsh-docker-aliases zsh-syntax-highlighting)
 
 # > Sourcing
 source $ZSH/oh-my-zsh.sh # * ZSH
@@ -127,12 +134,13 @@ source ~/.zprofile # * Load zprofile
 # > Commands
 
 # * For AWS CLI completer
-# complete -C '/usr/local/bin/aws_completer' aws
 complete -C '/opt/homebrew/bin/aws_completer' aws
 
 # > Autoloads
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
+# autoload bashcompinit && bashcompinit
+# autoload -Uz compinit && compinit
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
 
 # > MOTD
 figlet -cf slant "TH3PL4GU3" | lolcat
@@ -146,12 +154,16 @@ eval "$(zoxide init zsh)" # * Zoxide init
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-[[ -e "/Users/mervinhemaraju/lib/oci_autocomplete.sh" ]] && source "/Users/mervinhemaraju/lib/oci_autocomplete.sh"# The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/mervinhemaraju/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
 
+# Added by Antigravity
+export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
+
+# Autocomplete for OCI CLI
+[[ -e "/Users/mervinhemaraju/lib/oci_autocomplete.sh" ]] && source "/Users/mervinhemaraju/lib/oci_autocomplete.sh"
 # Added by Antigravity
 export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
 
