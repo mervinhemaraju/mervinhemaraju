@@ -99,40 +99,13 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(azure ansible argocd alias-finder aws copypath dotenv docker docker-compose gcloud history git macos python terraform golang pip vscode vagrant kubectl minikube helm kubectx zsh-autosuggestions zsh-docker-aliases zsh-syntax-highlighting)
+plugins=(azure ansible argocd alias-finder aws copypath dotenv docker docker-compose gcloud history git macos python terraform golang pip vscode vagrant kubectl minikube helm kubectx)
 
 # > Sourcing
 source $ZSH/oh-my-zsh.sh # * ZSH
 source ~/.zprofile # * Load zprofile
 
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 # > Commands
-
 # * For AWS CLI completer
 complete -C '/opt/homebrew/bin/aws_completer' aws
 
@@ -154,18 +127,14 @@ eval "$(zoxide init zsh)" # * Zoxide init
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
-fpath=(/Users/mervinhemaraju/.docker/completions $fpath)
-
-# Added by Antigravity
-export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
-
-# Added by Antigravity
-export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
 
 # Autocomplete for OCI CLI
 [[ -e "/Users/mervinhemaraju/lib/oci_autocomplete.sh" ]] && source "/Users/mervinhemaraju/lib/oci_autocomplete.sh"
-# Added by Antigravity
-export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
 
 # Added by Antigravity
 export PATH="/Users/mervinhemaraju/.antigravity/antigravity/bin:$PATH"
+
+# Brew installations
+source $(brew --prefix zsh-fast-syntax-highlighting)/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $(brew --prefix zsh-autocomplete)/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+source $(brew --prefix zsh-autosuggestions)/share/zsh-autosuggestions/zsh-autosuggestions.zsh

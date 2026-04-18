@@ -87,6 +87,11 @@ alias kns='kubens'
 alias knsf='kns | grep -vE "gke-managed-cim|gke-managed-system|gke-managed-volumepopulator|gmp-public|gmp-system|kube-node-lease|kube-public|kube-system"'
 alias kgpar="k get pods --all-namespaces -o custom-columns='NAMESPACE:.metadata.namespace,NAME:.metadata.name,CPU_REQUEST:.spec.containers[*].resources.requests.cpu,MEMORY_REQUEST:.spec.containers[*].resources.requests.memory'"
 
+# > Docker
+alias dk="docker"
+alias dki="docker images"
+alias dkps="docker ps"
+
 # > ArgoCD
 alias argo-admin-secret="kgsec -n argocd argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
 alias argo-pf="k port-forward service/argocd-server -n argocd 8080:443"
