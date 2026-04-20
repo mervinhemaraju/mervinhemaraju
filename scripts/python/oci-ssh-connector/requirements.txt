@@ -1,3 +1,4 @@
 cutie==0.3.2
 doppler-sdk==1.2.1
 oci==2.125.1
+cryptography>=46.0.5 # not directly required, pinned by Snyk to avoid a vulnerability
