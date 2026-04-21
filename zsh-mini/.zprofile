@@ -14,11 +14,6 @@ source ~/.secrets
 #*##### Aliases #####*#
 #*###################*#
 
-# > SSH Key sessions
-# alias ssh-keys-load-prod='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_aws.pem && ssh-add /Users/mervin.hemaraju/MyKeys/prod.pem && ssh-add /Users/mervin.hemaraju/MyKeys/hsm-tooling-mgmt.pem && ssh-add -l'
-# alias ssh-keys-load-dev='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add -l'
-# alias ssh-keys-clear='ssh-add -D'
-
 # > Granted.dev
 alias assume=". assume"
 
@@ -128,7 +123,6 @@ alias oci-gaia=oci_gaia
 alias oci-helios=oci_helios
 
 # > GCP
-alias gauth-dke="BROWSER=~/scripts/bash/firefox-dke-gcp gcloud auth login --login-config=$HOME/.gcp/dke/config.json"
 alias gcca="gcloud config configurations activate"
 alias gccl="gcloud config configurations list"
 alias gccc="gcloud config configurations create"

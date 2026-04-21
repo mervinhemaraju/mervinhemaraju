@@ -9,6 +9,7 @@ $git_branch\
 $git_commit\
 $docker_context\
 $python\
+$rust\
 $golang\
 $java\
 $kotlin\
