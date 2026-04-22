@@ -16,6 +16,7 @@ cloudflared
 container
 cryptography
 dart-sdk
+docker-compose
 doggo
 doppler
 exoscale-cli
@@ -132,6 +133,9 @@ xz
 yarn
 yq
 zoxide
+zsh-autocomplete
+zsh-autosuggestions
+zsh-fast-syntax-highlighting
 zstd
 android-platform-tools
 android-studio

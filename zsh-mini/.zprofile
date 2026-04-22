@@ -49,10 +49,10 @@ alias code="antigravity"
 
 # > Flutter & Dart aliases
 alias fl='flutter'
-alias fpg='fl pub get'
-alias fr='fl run'
-alias fd='fl doctor'
-alias fdv='fl doctor -v'
+alias flpg='fl pub get'
+alias flr='fl run'
+alias fld='fl doctor'
+alias fldv='fl doctor -v'
 alias drw='dart run build_runner watch'
 alias drb='dart run build_runner build'
 
