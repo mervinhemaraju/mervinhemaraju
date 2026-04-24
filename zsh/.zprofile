@@ -48,10 +48,6 @@ alias dig='doggo'
 alias rmf='rm -rf'
 alias cpath='copypath'
 
-# > IDE aliases
-alias vscode="/opt/homebrew/bin/code"
-alias code="antigravity"
-
 # > Flutter & Dart aliases
 alias fl='flutter'
 alias flpg='fl pub get'
