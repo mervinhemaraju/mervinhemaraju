@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "../Projects/work/azuredev/duokeych/dke-cockpit-rs/dke-cockpit-rs",
+    },
+    {
+      "path": "../Projects/work/azuredev/duokeych/dke-devops/terraform-provider-cockpit",
+    },
+  ],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "terraform-provider-cockpit",
+  },
+}

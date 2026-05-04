@@ -20,6 +20,7 @@ docker-compose
 doggo
 doppler
 exoscale-cli
+fd
 ffind
 figlet
 firebase-cli
@@ -77,6 +78,7 @@ libxrender
 libyaml
 little-cms2
 llhttp
+llvm
 lolcat
 lsd
 lz4
@@ -87,6 +89,7 @@ merve
 minikube
 mpdecimal
 nbytes
+ncurses
 nettle
 node
 node@22
@@ -104,6 +107,7 @@ p11-kit
 pcre2
 pinentry
 pixman
+pkgconf
 postgresql@17
 pre-commit
 pycparser
@@ -113,6 +117,7 @@ python@3.13
 python@3.14
 readline
 ruby
+rust
 simdjson
 simdutf
 sqlite
@@ -128,10 +133,12 @@ unbound
 uvwasi
 velero
 vercel-cli
+watch
 xorgproto
 xz
 yarn
 yq
+z3
 zoxide
 zsh-autocomplete
 zsh-autosuggestions

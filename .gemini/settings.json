@@ -1,0 +1,16 @@
+{
+  "autoApprove": false,
+  "permissions": {
+    "deny": [
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(git merge*)",
+      "Bash(git rebase*)",
+      "Bash(git add*)",
+      "Bash(git reset --hard*)",
+      "Bash(terraform apply*)",
+      "Bash(terraform destroy*)",
+      "Bash(terraform force-unlock*)"
+    ]
+  }
+}
