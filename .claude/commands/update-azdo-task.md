@@ -5,15 +5,23 @@
 Parse `$ARGUMENTS` (space-separated tokens):
 
 - **`TASK_ID`** — first token, numeric (required)
-- **`SOURCE`** — second token, must be `context` or `diff` (required)
-- **`--pr`** — optional flag; if present, create a GitHub PR after updating the task
+- **`SOURCE`** — second token, `context` or `diff` (optional; if omitted, task content is not updated)
+- **`--pr`** — optional flag; if present, create an Azure DevOps PR after updating the task
 - **`--base <branch>`** — optional; base branch for the PR (default: `main`)
 
-Stop with a usage message if `TASK_ID` or `SOURCE` are missing or `SOURCE` is not `context`/`diff`.
+Stop with a usage message if `TASK_ID` is missing or `SOURCE` is present but not `context`/`diff`.
 
 ## Steps
 
 ### 1 — Resolve org + project
+
+Check `AZDO_CLI_WORKITEMS_PAT` is set:
+
+```bash
+printenv AZDO_CLI_WORKITEMS_PAT | wc -c
+```
+
+If the byte count is 0 or 1 (empty or just a newline), stop and tell the user to export `AZDO_CLI_WORKITEMS_PAT` in `~/.zshenv` then restart Claude Code.
 
 Verify Azure CLI credentials are valid:
 
@@ -35,7 +43,7 @@ Parse the URL: `https://dev.azure.com/{org}/{project}/_git/{repo}`
 
 If the URL doesn't match this pattern or no remote is set, ask the user to provide the missing values before continuing.
 
-### 2 — Gather context
+### 2 — Gather context (skip if SOURCE was not provided)
 
 - If `SOURCE` is `diff`: run `git diff` and `git diff --staged`. Analyze what changed — files, purpose, key decisions.
 - If `SOURCE` is `context`: use what was discussed and implemented in the current conversation session.
@@ -45,10 +53,10 @@ From whichever source, produce:
 - List of files changed (if applicable).
 - Current branch name (run `git branch --show-current`).
 
-### 3 — Update the task discussion
+### 3 — Update the task discussion (skip if SOURCE was not provided)
 
 ```bash
-az boards work-item update --id $TASK_ID \
+AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az boards work-item update --id $TASK_ID \
   --discussion "<summary of what was done>. Files: <list>. Branch: <branch>." \
   --organization "$AZDO_ORG" \
   --output none
@@ -72,13 +80,17 @@ Write the result to `/tmp/azdo_pr_body.md`.
 #### 4b — Create the PR
 
 ```bash
-gh pr create \
+AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az repos pr create \
   --title "<concise title derived from the task summary>" \
-  --base <base-branch> \
-  --body-file /tmp/azdo_pr_body.md
+  --target-branch <base-branch> \
+  --source-branch $(git branch --show-current) \
+  --description "@/tmp/azdo_pr_body.md" \
+  --organization "$AZDO_ORG" \
+  --project "$AZDO_PROJECT" \
+  --output json
 ```
 
-Print the PR URL.
+Print the PR URL from the JSON output.
 
 ### 5 — Output
 

@@ -1,5 +1,15 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(az account show*)",
+      "Bash(git remote get-url*)",
+      "Bash(echo*)",
+      "Bash(printenv*)",
+      "Bash(AZURE_DEVOPS_EXT_PAT=*)",
+      "Bash(python3 -c*)",
+      "Bash(az rest --method patch*)",
+      "Bash(git checkout -b*)"
+    ],
     "deny": [
       "Bash(git commit*)",
       "Bash(git push*)",
@@ -14,5 +24,5 @@
   },
   "theme": "dark-ansi",
   "autoApprove": false,
-  "effortLevel": "high"
+  "effortLevel": "medium"
 }
