@@ -12,5 +12,14 @@
       "Bash(terraform destroy*)",
       "Bash(terraform force-unlock*)"
     ]
+  },
+  "ide": {
+    "hasSeenNudge": true,
+    "enabled": true
+  },
+  "security": {
+    "auth": {
+      "selectedType": "oauth-personal"
+    }
   }
 }

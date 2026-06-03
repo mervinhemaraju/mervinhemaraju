@@ -133,3 +133,7 @@ alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
 alias warp="warp-cli"
 alias warpc="warp-cli connect"
 alias warpdc="warp-cli disconnect"
+
+# > Claude
+alias cld="claude"
+alias cldr="claude -r"

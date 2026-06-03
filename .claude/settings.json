@@ -1,5 +1,4 @@
 {
-  "autoApprove": false,
   "permissions": {
     "deny": [
       "Bash(git commit*)",
@@ -12,5 +11,8 @@
       "Bash(terraform destroy*)",
       "Bash(terraform force-unlock*)"
     ]
-  }
+  },
+  "theme": "dark-ansi",
+  "autoApprove": false,
+  "effortLevel": "high"
 }

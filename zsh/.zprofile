@@ -123,6 +123,9 @@ alias oci-poseidon=oci_poseidon
 alias oci-gaia=oci_gaia
 alias oci-helios=oci_helios
 
+# > Azure
+alias azauth-dke="BROWSER=~/scripts/bash/firefox-dke-azure az login --allow-no-subscriptions"
+
 # > GCP
 alias gauth-dke="BROWSER=~/scripts/bash/firefox-dke-gcp gcloud auth login --login-config=$HOME/.gcp/dke/config.json"
 alias gcca="gcloud config configurations activate"
@@ -139,3 +142,7 @@ alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
 alias warp="warp-cli"
 alias warpc="warp-cli connect"
 alias warpdc="warp-cli disconnect"
+
+# > Claude
+alias cld="claude"
+alias cldr="claude -r"
