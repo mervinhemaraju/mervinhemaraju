@@ -95,14 +95,14 @@ html = open('/tmp/azdo_body.html').read()
 print(json.dumps([{'op':'add','path':'/fields/System.Description','value':html}]))
 " > /tmp/azdo_patch.json
 
-az rest --method patch \
-  --uri "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0" \
-  --headers "Content-Type=application/json-patch+json" \
-  --body "@/tmp/azdo_patch.json" \
-  --resource "499b84ac-1321-427f-aa17-267ca6975798"
+curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
+  -H "Content-Type: application/json-patch+json" \
+  --data-binary "@/tmp/azdo_patch.json" \
+  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
 ```
 
-Note: `--resource 499b84ac-1321-427f-aa17-267ca6975798` is required for dev.azure.com — omitting it causes TF400813 "not authorized".
+Note: `az rest` with `--resource` fails with TF400813 on dev.azure.com — use curl with Basic auth (PAT) instead.
 
 ### 6 — Create branch
 

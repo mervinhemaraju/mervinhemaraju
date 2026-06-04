@@ -4,12 +4,17 @@
 
 Parse `$ARGUMENTS` (space-separated tokens):
 
-- **`TASK_ID`** — first token, numeric (required)
-- **`SOURCE`** — second token, `context` or `diff` (optional; if omitted, task content is not updated)
+- **`TASK_ID`** — first token, numeric (optional — see resolution rules below)
+- **`SOURCE`** — next token, `context` or `diff` (optional; if omitted, task content is not updated)
 - **`--pr`** — optional flag; if present, create an Azure DevOps PR after updating the task
 - **`--base <branch>`** — optional; base branch for the PR (default: `main`)
 
-Stop with a usage message if `TASK_ID` is missing or `SOURCE` is present but not `context`/`diff`.
+**Resolving `TASK_ID`:**
+1. If the first token is numeric, use it as `TASK_ID`.
+2. Otherwise, scan the current conversation context for a task ID that was created or mentioned (e.g. from a prior `/create-azdo-task` run). Use that ID and tell the user which one you picked.
+3. If no ID is found in context, ask the user: "Which task ID should I update?"
+
+Stop with a usage message if `SOURCE` is present but not `context`/`diff`.
 
 ## Steps
 
@@ -90,8 +95,48 @@ AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az repos pr create \
   --output json
 ```
 
-Print the PR URL from the JSON output.
+Capture the `pullRequestId` field from the JSON output as `PR_ID`.
 
-### 5 — Output
+#### 4c — Link the PR to the work item
+
+```bash
+python3 -c "
+import json
+print(json.dumps([{
+  'op': 'add',
+  'path': '/relations/-',
+  'value': {
+    'rel': 'ArtifactLink',
+    'url': 'vstfs:///Git/PullRequestId/$AZDO_PROJECT%2F$(git remote get-url origin | sed \"s|.*/||; s|\.git||\")\%2F$PR_ID',
+    'attributes': {'name': 'Pull Request'}
+  }
+}]))
+" > /tmp/azdo_pr_link.json
+
+curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
+  -H "Content-Type: application/json-patch+json" \
+  --data-binary "@/tmp/azdo_pr_link.json" \
+  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
+```
+
+Print the PR URL from the JSON output in step 4b.
+
+### 5 — Mark work item as Done
+
+```bash
+python3 -c "
+import json
+print(json.dumps([{'op':'add','path':'/fields/System.State','value':'Done'}]))
+" > /tmp/azdo_state.json
+
+curl -s -o /dev/null -w "%{http_code}" -X PATCH \
+  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
+  -H "Content-Type: application/json-patch+json" \
+  --data-binary "@/tmp/azdo_state.json" \
+  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
+```
+
+### 6 — Output
 
 Print the task URL: `$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$TASK_ID`

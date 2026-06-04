@@ -7,7 +7,7 @@
       "Bash(printenv*)",
       "Bash(AZURE_DEVOPS_EXT_PAT=*)",
       "Bash(python3 -c*)",
-      "Bash(az rest --method patch*)",
+      "Bash(curl -s*)",
       "Bash(git checkout -b*)"
     ],
     "deny": [
