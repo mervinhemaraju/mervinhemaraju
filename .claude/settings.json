@@ -22,7 +22,7 @@
       "Bash(terraform force-unlock*)"
     ]
   },
+  "effortLevel": "high",
   "theme": "dark-ansi",
-  "autoApprove": false,
-  "effortLevel": "medium"
+  "autoApprove": false
 }

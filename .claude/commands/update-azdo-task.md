@@ -48,6 +48,16 @@ Parse the URL: `https://dev.azure.com/{org}/{project}/_git/{repo}`
 
 If the URL doesn't match this pattern or no remote is set, ask the user to provide the missing values before continuing.
 
+### 1b — Show plan and wait for approval
+
+Tell the user:
+- Task ID that will be updated
+- Whether discussion will be added (SOURCE provided or not)
+- Whether a PR will be created (`--pr` flag)
+- Base branch for PR (if applicable)
+
+**Wait for the user to confirm. After confirmation, proceed with all remaining steps automatically without asking for further confirmation.**
+
 ### 2 — Gather context (skip if SOURCE was not provided)
 
 - If `SOURCE` is `diff`: run `git diff` and `git diff --staged`. Analyze what changed — files, purpose, key decisions.
@@ -100,24 +110,10 @@ Capture the `pullRequestId` field from the JSON output as `PR_ID`.
 #### 4c — Link the PR to the work item
 
 ```bash
-python3 -c "
-import json
-print(json.dumps([{
-  'op': 'add',
-  'path': '/relations/-',
-  'value': {
-    'rel': 'ArtifactLink',
-    'url': 'vstfs:///Git/PullRequestId/$AZDO_PROJECT%2F$(git remote get-url origin | sed \"s|.*/||; s|\.git||\")\%2F$PR_ID',
-    'attributes': {'name': 'Pull Request'}
-  }
-}]))
-" > /tmp/azdo_pr_link.json
-
-curl -s -o /dev/null -w "%{http_code}" -X PATCH \
-  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
-  -H "Content-Type: application/json-patch+json" \
-  --data-binary "@/tmp/azdo_pr_link.json" \
-  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
+AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az repos pr work-item add \
+  --id $PR_ID \
+  --work-items $TASK_ID \
+  --organization "$AZDO_ORG"
 ```
 
 Print the PR URL from the JSON output in step 4b.
