@@ -119,6 +119,14 @@ module "vpc" {
 - Example: `aws_s3_bucket_app_assets`, `google_compute_instance_api_server`
 - Always apply common_tags to every resource that supports tags
 
+## Before Writing Any Plan
+
+Before writing any implementation plan for Terraform changes:
+1. Read `.terraform.lock.hcl` for exact locked provider versions; fall back to `versions.tf` constraints if the lock file is absent
+2. Check any `module` blocks for their `source` and `version`
+3. Fetch the official docs at those exact versions from `registry.terraform.io` before proposing any resource arguments, attribute names, or module inputs — never rely on memory
+4. Only then write the plan, referencing doc-confirmed attributes
+
 ## Plan Before Apply
 
 - Always run `terraform plan` and review output before `terraform apply`

@@ -39,3 +39,4 @@
 @~/.claude/skills/new-feature/SKILL.md
 @~/.claude/skills/refactor/SKILL.md
 @~/.claude/skills/review/SKILL.md
+@~/.claude/skills/terraform-change/SKILL.md
