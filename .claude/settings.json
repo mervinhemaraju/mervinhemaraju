@@ -24,5 +24,9 @@
   },
   "effortLevel": "high",
   "theme": "dark-ansi",
-  "autoApprove": false
+  "autoApprove": false,
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
 }
