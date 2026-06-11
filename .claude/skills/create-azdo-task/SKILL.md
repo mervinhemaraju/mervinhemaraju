@@ -1,3 +1,9 @@
+---
+name: create-azdo-task
+description: Create an Azure DevOps task, assign it, set its description, and create a matching git branch. Invoke with /create-azdo-task [task title].
+allowed-tools: Bash(printenv:*), Bash(az account show:*), Bash(git remote get-url:*), Bash(az boards:*), Bash(AZURE_DEVOPS_EXT_PAT=*), Bash(python3 -c:*), Bash(curl -s -o /dev/null -w:*), Bash(git checkout -b:*), Write(/tmp/azdo_*)
+---
+
 # Create Azure DevOps Task
 
 ## Arguments

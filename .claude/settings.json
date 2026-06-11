@@ -22,11 +22,12 @@
       "Bash(terraform force-unlock*)"
     ]
   },
-  "effortLevel": "high",
-  "theme": "dark-ansi",
-  "autoApprove": false,
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
-  }
+  },
+  "effortLevel": "high",
+  "theme": "dark-ansi",
+  "autoApprove": false,
+  "model": "claude-fable-5[1m]"
 }

@@ -1,3 +1,8 @@
+---
+name: update-azdo-task
+description: Update an Azure DevOps task with progress, optionally create and link a PR. Invoke with /update-azdo-task [task-id] [context|diff] [--pr] [--base <branch>].
+allowed-tools: Bash(printenv:*), Bash(az account show:*), Bash(git remote get-url:*), Bash(git diff:*), Bash(git branch --show-current:*), Bash(find .azuredevops:*), Bash(AZURE_DEVOPS_EXT_PAT=*), Bash(az boards:*), Bash(az repos:*), Write(/tmp/azdo_*)
+---
 # Update Azure DevOps Task
 
 ## Arguments
@@ -10,6 +15,7 @@ Parse `$ARGUMENTS` (space-separated tokens):
 - **`--base <branch>`** — optional; base branch for the PR (default: `main`)
 
 **Resolving `TASK_ID`:**
+
 1. If the first token is numeric, use it as `TASK_ID`.
 2. Otherwise, scan the current conversation context for a task ID that was created or mentioned (e.g. from a prior `/create-azdo-task` run). Use that ID and tell the user which one you picked.
 3. If no ID is found in context, ask the user: "Which task ID should I update?"
@@ -43,6 +49,7 @@ git remote get-url origin
 ```
 
 Parse the URL: `https://dev.azure.com/{org}/{project}/_git/{repo}`
+
 - `AZDO_ORG` = `https://dev.azure.com/{org}`
 - `AZDO_PROJECT` = `{project}`
 
@@ -51,6 +58,7 @@ If the URL doesn't match this pattern or no remote is set, ask the user to provi
 ### 1b — Show plan and wait for approval
 
 Tell the user:
+
 - Task ID that will be updated
 - Whether discussion will be added (SOURCE provided or not)
 - Whether a PR will be created (`--pr` flag)
@@ -64,6 +72,7 @@ Tell the user:
 - If `SOURCE` is `context`: use what was discussed and implemented in the current conversation session.
 
 From whichever source, produce:
+
 - A 2–4 sentence summary of what was done and why.
 - List of files changed (if applicable).
 - Current branch name (run `git branch --show-current`).
@@ -118,21 +127,6 @@ AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az repos pr work-item add \
 
 Print the PR URL from the JSON output in step 4b.
 
-### 5 — Mark work item as Done
-
-```bash
-python3 -c "
-import json
-print(json.dumps([{'op':'add','path':'/fields/System.State','value':'Done'}]))
-" > /tmp/azdo_state.json
-
-curl -s -o /dev/null -w "%{http_code}" -X PATCH \
-  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
-  -H "Content-Type: application/json-patch+json" \
-  --data-binary "@/tmp/azdo_state.json" \
-  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
-```
-
-### 6 — Output
+### 5 — Output
 
 Print the task URL: `$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$TASK_ID`
