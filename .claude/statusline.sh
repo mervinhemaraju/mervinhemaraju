@@ -25,6 +25,7 @@ def get(obj, *keys, default=""):
     return obj if obj is not None else default
 
 model    = get(data, "model",    "display_name") or "unknown"
+effort   = get(data, "effort", "level")          # "" when model has no effort param
 cwd      = get(data, "workspace", "current_dir") or get(data, "cwd") or ""
 pct      = int(float(get(data, "context_window", "used_percentage") or 0))
 tokens   = int(float(get(data, "context_window", "total_input_tokens") or 0))
@@ -75,11 +76,12 @@ if cwd:
 # ── Line 1 ──────────────────────────────────────────────────────────────────────
 dirname = os.path.basename(cwd) or cwd
 
-# [model] in red
-parts1 = [f"{RED}[{model}]{RESET}"]
+# [model] in red — append "- effort" when the model supports it
+model_label = f"{model} - {effort}" if effort else model
+parts1 = [f"🤖 {RED}[{model_label}]{RESET}"]
 
 # current dir in cyan
-parts1.append(f"{CYAN}{dirname}{RESET}")
+parts1.append(f"📁 {CYAN}{dirname}{RESET}")
 
 # git branch in grey, linked if possible
 if branch:
@@ -87,9 +89,9 @@ if branch:
         branch_url = f"https://{repo_host}/{repo_owner}/{repo_name}/tree/{branch}"
         # colour inside the link: grey text
         linked = osc8(branch_url, f"{GREY}{branch}{RESET}")
-        parts1.append(linked)
+        parts1.append(f"🌿 {linked}")
     else:
-        parts1.append(f"{GREY}{branch}{RESET}")
+        parts1.append(f"🌿 {GREY}{branch}{RESET}")
 
 line1 = "  ".join(parts1)
 
