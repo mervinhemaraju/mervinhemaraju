@@ -58,6 +58,26 @@ def osc8(url, label):
     """OSC 8 clickable hyperlink. Cmd+click macOS, Ctrl+click Linux/Win."""
     return f"\033]8;;{url}\007{label}\033]8;;\007"
 
+def kube_segment():
+    """Current kube context (namespace), or "" when no context is active."""
+    try:
+        ctx = subprocess.check_output(
+            ["kubectl", "config", "current-context"],
+            stderr=subprocess.DEVNULL, text=True
+        ).strip()
+    except Exception:
+        return ""
+    if not ctx:
+        return ""
+    try:
+        ns = subprocess.check_output(
+            ["kubectl", "config", "view", "--minify", "-o", "jsonpath={..namespace}"],
+            stderr=subprocess.DEVNULL, text=True
+        ).strip()
+    except Exception:
+        ns = ""
+    return f"☸️  {YELLOW}{ctx} ({ns or 'default'}){RESET}"
+
 # ── Git branch ──────────────────────────────────────────────────────────────────
 branch = ""
 if cwd:
@@ -92,6 +112,11 @@ if branch:
         parts1.append(f"🌿 {linked}")
     else:
         parts1.append(f"🌿 {GREY}{branch}{RESET}")
+
+# kube context (namespace) — only when a context is active
+kube = kube_segment()
+if kube:
+    parts1.append(kube)
 
 line1 = "  ".join(parts1)
 
