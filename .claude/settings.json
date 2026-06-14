@@ -29,5 +29,5 @@
   "effortLevel": "high",
   "theme": "dark-ansi",
   "autoApprove": false,
-  "model": "claude-fable-5[1m]"
+  "model": "opus"
 }

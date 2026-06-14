@@ -32,6 +32,7 @@ jpeg-turbo
 jq
 kubectx
 kubernetes-cli
+libffi
 libgit2
 libnghttp2
 libnghttp3
@@ -73,6 +74,7 @@ pycparser
 python@3.13
 python@3.14
 readline
+ripgrep
 ruby
 rust
 simdjson
@@ -95,7 +97,7 @@ zsh-fast-syntax-highlighting
 zstd
 android-platform-tools
 android-studio
-claude-code
+claude-code@latest
 firefox
 flutter
 font-space-mono-nerd-font
