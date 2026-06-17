@@ -61,6 +61,7 @@ Tell the user:
 
 - Task ID that will be updated
 - Whether discussion will be added (SOURCE provided or not)
+- Whether the task will be reported as completed in the status comment (ask the user if unclear)
 - Whether a PR will be created (`--pr` flag)
 - Base branch for PR (if applicable)
 
@@ -85,6 +86,27 @@ AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az boards work-item update --id $
   --organization "$AZDO_ORG" \
   --output none
 ```
+
+### 3b — Post a completion status comment
+
+Always run this step (even if SOURCE was not provided), so the task carries an explicit, human-readable record of its state directly in the comments.
+
+Determine completion status:
+
+- If the user stated the task is done/complete, treat it as **completed**.
+- If the work is partial or follow-up remains, treat it as **not completed**.
+- If unclear, ask the user before posting.
+
+Post a structured status comment to the discussion:
+
+```bash
+AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az boards work-item update --id $TASK_ID \
+  --discussion "Task summary: <2-4 sentence description of what was done>. Status: <Completed | Not completed — remaining: <what's left>>." \
+  --organization "$AZDO_ORG" \
+  --output none
+```
+
+This step posts a comment only; it does not change the work item's State field.
 
 ### 4 — Create PR (only if --pr was passed)
 
