@@ -53,9 +53,9 @@ alias drw='dart run build_runner watch'
 alias drb='dart run build_runner build'
 
 # > Python Aliases
-alias python='python3.11'
-alias py='python3.11'
-alias pip='pip3.11'
+alias python='python3.13'
+alias py='python3.13'
+alias pip='pip3.13'
 alias python-load-env='python -m venv .venv && source .venv/bin/activate && python -m pip install --upgrade pip && pip install pip-chill'
 alias python-pypi-upload='python setup.py sdist && python -m twine upload dist/*'
 alias pip-chill='pip-chill --no-chill'

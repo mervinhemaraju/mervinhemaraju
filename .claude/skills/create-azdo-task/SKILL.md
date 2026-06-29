@@ -1,7 +1,7 @@
 ---
 name: create-azdo-task
 description: Create an Azure DevOps task, assign it, set its description, and create a matching git branch. Invoke with /create-azdo-task [task title].
-allowed-tools: Bash(printenv:*), Bash(az account show:*), Bash(git remote get-url:*), Bash(az boards:*), Bash(AZURE_DEVOPS_EXT_PAT=*), Bash(python3 -c:*), Bash(curl -s -o /dev/null -w:*), Bash(git checkout -b:*), Write(/tmp/azdo_*)
+allowed-tools: Bash(printenv:*), Bash(git remote get-url:*), Bash(az boards:*), Bash(git checkout -b:*)
 ---
 
 # Create Azure DevOps Task
@@ -10,70 +10,108 @@ allowed-tools: Bash(printenv:*), Bash(az account show:*), Bash(git remote get-ur
 
 `$ARGUMENTS` is the task title. Stop with a usage message if it is empty.
 
+## Prompt-free contract (important)
+
+This skill is designed to run **without any permission prompts** after the single
+approval gate in step 2. The permission gate fires on **any** command containing shell
+variable expansion (`$VAR`) or command substitution (`$(...)`). To stay prompt-free:
+
+- The PAT is **never** passed inline. It must already be exported as `AZURE_DEVOPS_EXT_PAT`
+  (the var `az` reads natively). Never inline the PAT value — that leaks the secret.
+- All other values (org URL, project, assignee, task id, branch name) are read first via
+  the allowed commands, then **inlined as literals** into the `az`/`git` commands — never
+  referenced as `$VAR`.
+- Generated text inlined into a command (description, acceptance criteria) must not contain
+  `$`, backticks, or `$(` — those are shell metacharacters and will trigger the gate.
+  Rephrase to avoid them.
+
+Prompt-free requires BOTH of these, together:
+
+1. The command contains no `$` expansion / `$(...)` (above), AND
+2. `settings.json` `permissions.allow` contains a matching rule —
+   `Bash(az boards work-item*)` (and `Bash(git checkout -b*)` for the branch step). The
+   `allowed-tools:` line in this skill's frontmatter does **not** suppress permission
+   prompts; only `settings.json` does.
+
 ## Steps
 
-### 1 — Verify env vars and resolve org + project
-
-Check `AZDO_ASSIGNEE` and `AZDO_CLI_WORKITEMS_PAT` are set:
+### 1 — Verify env and resolve org + project
 
 ```bash
 printenv AZDO_ASSIGNEE
-printenv AZDO_CLI_WORKITEMS_PAT | wc -c
+printenv AZURE_DEVOPS_EXT_PAT
 ```
 
-If `AZDO_ASSIGNEE` is empty, stop and tell the user to export it in `~/.zshenv`.
-If the PAT byte count is 0 or 1 (empty or just a newline), stop and tell the user to export `AZDO_CLI_WORKITEMS_PAT` in `~/.zshenv` then restart Claude Code.
+- If `AZDO_ASSIGNEE` is empty, stop and tell the user to export it in `~/.zshenv`.
+- If `AZURE_DEVOPS_EXT_PAT` is empty, stop and tell the user to add
+  `export AZURE_DEVOPS_EXT_PAT="<pat>"` to `~/.zshenv` and restart Claude Code. This is the
+  var `az` reads natively, and it lets the skill authenticate without passing the PAT inline.
 
-Verify Azure CLI credentials are valid:
+Capture the **literal** `AZDO_ASSIGNEE` value for inlining below.
 
-```bash
-az account show --output none
-```
-
-If this fails, stop and tell the user to run `azauth-dke` first, then retry.
-
-Derive `AZDO_ORG` and `AZDO_PROJECT` from the git remote:
+Resolve the org URL and project from the git remote:
 
 ```bash
 git remote get-url origin
 ```
 
-Parse the URL: `https://dev.azure.com/{org}/{project}/_git/{repo}`
-- `AZDO_ORG` = `https://dev.azure.com/{org}`
-- `AZDO_PROJECT` = `{project}`
+Parse `https://dev.azure.com/{org}/{project}/_git/{repo}`:
 
-If the URL doesn't match this pattern or no remote is set, ask the user to provide the missing values before continuing.
+- **org URL** = `https://dev.azure.com/{org}`
+- **project** = `{project}`
+
+If the URL doesn't match or no remote is set, ask the user for the missing values before
+continuing. Capture these as literals — inline them into the commands below.
 
 ### 2 — Generate title, description, acceptance criteria, and branch name
 
-**Title**: If `$ARGUMENTS` is more than 6 words, summarize it into a concise title of 6 words or fewer. If 6 words or fewer, use as-is. Always capitalize the first letter.
+**Title**: If `$ARGUMENTS` is more than 6 words, summarize it into a concise title of 6 words
+or fewer. Otherwise use as-is. Always capitalize the first letter.
 
 From the title, generate:
 
 - **Description** (2–4 sentences): what the task is, why it matters, expected approach.
-- **Acceptance Criteria** (3–6 bullets): specific, testable conditions, each starting with an action verb (Implement, Verify, Ensure, Add, Confirm).
-- **Branch type**: infer from the title using these rules:
+- **Acceptance Criteria** (3–6 bullets): specific, testable conditions, each starting with
+  an action verb (Implement, Verify, Ensure, Add, Confirm).
+- **Branch type**: infer from the title:
   - `feature` — Add, Implement, Create, Build, Introduce
   - `fix` — Fix, Resolve, Patch
   - `bugfix` — Bug, Bugfix
   - `update` — Update, Upgrade, Bump, Migrate
   - `improvement` — Improve, Enhance, Optimise, Refactor, Clean
 
-  Slugify the **summarized title** (not the raw input): lowercase, spaces to hyphens, strip non-alphanumeric characters. The slug must be at most 5 words long — trim further if needed.
+  Slugify the **summarized title**: lowercase, spaces to hyphens, strip non-alphanumeric
+  characters. The slug must be at most 5 words long — trim further if needed.
   Branch name preview: `<type>/<task-id-placeholder>-MHE-<slugified-title>`
-  (The real task ID replaces the placeholder once the task is created.)
+  (the real task id replaces the placeholder once the task is created.)
+
+Build the HTML body for the description field (description paragraph + AC as a `<ul>`):
+
+```html
+<p><!-- description paragraph --></p>
+<p><strong>Acceptance Criteria</strong></p>
+<ul>
+  <li><!-- criterion 1 --></li>
+  <li><!-- criterion 2 --></li>
+</ul>
+```
 
 Show title, description, AC, and inferred branch name to the user and wait for approval.
-**After approval, proceed with steps 3–6 automatically without asking for further confirmation.**
+**After approval, proceed with steps 3–6 automatically without asking the user any further
+clarifying questions.**
 
 ### 3 — Create the task
 
+Inline the literal title, project, org URL, and HTML body (no `$` expansion). The command
+must begin with `az boards`:
+
 ```bash
-AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az boards work-item create \
-  --title "$ARGUMENTS" \
+az boards work-item create \
+  --title "<title>" \
   --type "Task" \
-  --project "$AZDO_PROJECT" \
-  --organization "$AZDO_ORG" \
+  --project "<project>" \
+  --organization "https://dev.azure.com/<org>" \
+  --description "<html body from step 2>" \
   --output json
 ```
 
@@ -81,42 +119,30 @@ Capture the `id` field from the JSON output as `TASK_ID`.
 
 ### 4 — Assign to me
 
+`--assigned-to` is silently ignored on create, so always assign with a follow-up update.
+Inline the literal task id, assignee, and org URL:
+
 ```bash
-AZURE_DEVOPS_EXT_PAT="$AZDO_CLI_WORKITEMS_PAT" az boards work-item update --id $TASK_ID \
-  --assigned-to "$AZDO_ASSIGNEE" \
-  --organization "$AZDO_ORG" \
+az boards work-item update \
+  --id <TASK_ID> \
+  --assigned-to "<assignee>" \
+  --organization "https://dev.azure.com/<org>" \
   --output none
 ```
 
-Note: `--assigned-to` on the create call is silently ignored — always use a follow-up update.
+### 5 — Create branch
 
-### 5 — Set description via REST API
+> Intentional exception to `~/.claude/rules/no-git.md`: this skill is explicitly allowed to
+> create a branch (the user opted in via `Bash(git checkout -b*)` in settings). Creating the
+> branch is the only git write this skill performs — no add/commit/push/merge/rebase.
 
-Write the HTML description (description paragraph + AC as `<ul>`) to `/tmp/azdo_body.html`, then:
-
-```bash
-python3 -c "
-import json
-html = open('/tmp/azdo_body.html').read()
-print(json.dumps([{'op':'add','path':'/fields/System.Description','value':html}]))
-" > /tmp/azdo_patch.json
-
-curl -s -o /dev/null -w "%{http_code}" -X PATCH \
-  -H "Authorization: Basic $(printf ':%s' "$AZDO_CLI_WORKITEMS_PAT" | base64)" \
-  -H "Content-Type: application/json-patch+json" \
-  --data-binary "@/tmp/azdo_patch.json" \
-  "$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$TASK_ID?api-version=7.0"
-```
-
-Note: `az rest` with `--resource` fails with TF400813 on dev.azure.com — use curl with Basic auth (PAT) instead.
-
-### 6 — Create branch
+Inline the literal type, task id, and slug:
 
 ```bash
 git checkout -b <type>/<TASK_ID>-MHE-<slugified-title>
 ```
 
-### 7 — Output
+### 6 — Output
 
-Print the task URL: `$AZDO_ORG/$AZDO_PROJECT/_workitems/edit/$TASK_ID`
+Print the task URL: `https://dev.azure.com/<org>/<project>/_workitems/edit/<TASK_ID>`
 Print the branch name.

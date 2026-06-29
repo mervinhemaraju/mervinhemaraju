@@ -8,7 +8,15 @@
       "Bash(AZURE_DEVOPS_EXT_PAT=*)",
       "Bash(python3 -c*)",
       "Bash(curl -s*)",
-      "Bash(git checkout -b*)"
+      "Bash(git checkout -b*)",
+      "Bash(kubectl get *)",
+      "Bash(kubectl logs *)",
+      "Bash(az boards work-item*)",
+      "Bash(az repos pr*)",
+      "Bash(git diff*)",
+      "Bash(git branch --show-current*)",
+      "Bash(find .azuredevops*)",
+      "Write(/tmp/azdo_*)"
     ],
     "deny": [
       "Bash(git commit*)",
@@ -22,12 +30,13 @@
       "Bash(terraform force-unlock*)"
     ]
   },
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
   },
   "effortLevel": "high",
+  "tui": "default",
   "theme": "dark-ansi",
-  "autoApprove": false,
-  "model": "opus"
+  "autoApprove": false
 }
