@@ -1,9 +1,10 @@
+Adde 
+
 ---
 name: update-azdo-task
 description: Update an Azure DevOps task with progress, optionally set its state and create/link a PR. Invoke with /update-azdo-task [task-id] [context|diff] [--status <state>] [--pr] [--base <branch>].
 allowed-tools: Bash(printenv:*), Bash(git remote get-url:*), Bash(git diff:*), Bash(git branch --show-current:*), Bash(find .azuredevops:*), Bash(az boards:*), Bash(az repos:*), Write(/tmp/azdo_*)
 ---
-
 # Update Azure DevOps Task
 
 ## Arguments
@@ -46,6 +47,20 @@ for each command (the `allowed-tools:` frontmatter does NOT suppress prompts; on
 `Bash(git remote get-url*)`, `Bash(git diff*)`, `Bash(git branch --show-current*)`,
 `Bash(find .azuredevops*)`, `Bash(az boards work-item*)`, `Bash(az repos pr*)`, and
 `Write(/tmp/azdo_*)`.
+
+## Comment template contract (important)
+
+Every comment this skill adds to a task (the `--discussion` text) MUST follow
+`comment-template.md` in this skill's directory. Read that file and fill in its three
+sections. Rules:
+
+- **All content is `-` bullet points.** No prose paragraphs under any heading.
+- Preserve the template's heading structure exactly (`### Summary`,
+  `#### What was done`, `#### Blockers`). Do not add or remove sections.
+- The **Blockers** section is always present. If there are none, write a single
+  `- None` bullet.
+- Keep it prompt-free: the text must not contain `$`, backticks, or `$(`. Rephrase to
+  avoid them.
 
 ## Steps
 
@@ -103,22 +118,11 @@ From whichever source, produce:
 - A 2–4 sentence summary of what was done and why.
 - List of files changed (if applicable).
 
-### 3 — Update the task discussion (skip if SOURCE was not provided)
+### 3 — Post the task comment (always run)
 
-Inline the literal task id, org URL, and summary text (no `$`, backticks, or `$(`):
-
-```bash
-az boards work-item update \
-  --id <TASK_ID> \
-  --discussion "<summary>. Files: <list>. Branch: <branch>." \
-  --organization "https://dev.azure.com/<org>" \
-  --output none
-```
-
-### 3b — Post a completion status comment
-
-Always run this step (even if SOURCE was not provided), so the task carries an explicit,
-human-readable record of its state directly in the comments.
+Always run this step, so the task carries an explicit, human-readable record of its
+progress and state directly in the comments. This step posts a comment only; it does not
+change the work item's State field.
 
 Determine completion status:
 
@@ -126,15 +130,37 @@ Determine completion status:
 - If the work is partial or follow-up remains, treat it as **not completed**.
 - If unclear, ask the user before posting.
 
+Read `comment-template.md` and fill it in per the **Comment template contract** above
+(all `-` bullets, no prose, keep the three headings, Blockers always present). Map the
+sections as follows:
+
+- **Summary** — bullets covering what was done and why (from step 2; if SOURCE was not
+  provided, a single bullet stating no content update was made).
+- **What was done** — one bullet per file/change (from step 2), plus a `- Branch: <branch>`
+  bullet and a `- Status: <Completed | Not completed>` bullet.
+- **Blockers** — one bullet per remaining item, or `- None`.
+
+Inline the literal task id, org URL, and the filled template (no `$`, backticks, or `$(`):
+
 ```bash
 az boards work-item update \
   --id <TASK_ID> \
-  --discussion "Task summary: <2-4 sentence description>. Status: <Completed | Not completed - remaining: <what's left>>." \
+  --discussion "### Summary
+
+- <what/why bullet>
+
+#### What was done
+
+- <change bullet>
+- Branch: <branch>
+- Status: <Completed | Not completed>
+
+#### Blockers
+
+- <blocker bullet, or None>" \
   --organization "https://dev.azure.com/<org>" \
   --output none
 ```
-
-This step posts a comment only; it does not change the work item's State field.
 
 ### 3c — Set the work item state (only if --status was passed)
 
