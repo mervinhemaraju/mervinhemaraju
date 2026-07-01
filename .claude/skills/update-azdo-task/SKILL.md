@@ -1,10 +1,9 @@
-Adde 
-
 ---
 name: update-azdo-task
 description: Update an Azure DevOps task with progress, optionally set its state and create/link a PR. Invoke with /update-azdo-task [task-id] [context|diff] [--status <state>] [--pr] [--base <branch>].
 allowed-tools: Bash(printenv:*), Bash(git remote get-url:*), Bash(git diff:*), Bash(git branch --show-current:*), Bash(find .azuredevops:*), Bash(az boards:*), Bash(az repos:*), Write(/tmp/azdo_*)
 ---
+
 # Update Azure DevOps Task
 
 ## Arguments
