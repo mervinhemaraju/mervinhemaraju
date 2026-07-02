@@ -1,0 +1,33 @@
+# ---- Appearance ----
+theme = Atom One Dark
+font-family = JetBrains Mono
+font-size = 13
+# font-thicken is macOS only (slightly bolder glyphs)
+font-thicken = false
+background-opacity = 0.80
+# background-blur = 20
+
+# ---- Window ----
+macos-titlebar-style = tabs
+window-padding-x = 10
+window-padding-y = 10
+# restore windows/tabs after quit
+window-save-state = always
+# set to true if you want a prompt before closing a pane/window
+confirm-close-surface = false
+
+# ---- Cursor ----
+cursor-style = block
+
+# ---- Behavior ----
+copy-on-select = clipboard
+mouse-hide-while-typing = true
+# scrollback in bytes (~100MB)
+scrollback-limit = 100000000
+
+# ---- Shell integration ----
+shell-integration = detect
+shell-integration-features = cursor,sudo,title
+
+# ---- Keybindings ----
+keybind = cmd+l=clear_screen
