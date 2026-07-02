@@ -8,7 +8,7 @@ background-opacity = 0.80
 # background-blur = 20
 
 # ---- Window ----
-macos-titlebar-style = tabs
+macos-titlebar-style = native
 window-padding-x = 10
 window-padding-y = 10
 # restore windows/tabs after quit
