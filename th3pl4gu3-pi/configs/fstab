@@ -1,0 +1,17 @@
+th3pl4gu3@th3pl4gu3-bck:~$ cat /mnt/oldpi/etc/fstab
+proc            /proc           proc    defaults          0       0
+PARTUUID=6a5f02ba-01  /boot/firmware  vfat    defaults          0       2
+PARTUUID=6a5f02ba-02  /               ext4    defaults,noatime  0       1
+
+# Main SSD entry
+UUID=2aea2c82-60ba-4855-abb0-10068cde616e /mnt/main-ssd ext4 defaults,nofail,x-systemd.device-timeout=30 0 2
+
+# External HDD1 Entry
+UUID=B460D15860D121C2 /mnt/hdd1 ntfs-3g defaults,uid=1000,gid=1000,dmask=027,fmask=137,noatime 0 0
+
+# External HDD2 Entry
+UUID=A016F97716F94F32 /mnt/hdd2 ntfs-3g defaults,uid=1000,gid=1000,dmask=027,fmask=137,noatime 0 0
+
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+th3pl4gu3@th3pl4gu3-bck:~$

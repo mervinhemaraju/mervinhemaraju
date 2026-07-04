@@ -4,9 +4,6 @@
 #*##### Referencing #####*#
 #*#######################*#
 
-# > Retrieve functions
-source ~/scripts/bash/functions.sh
-
 # > Retrieve secrets
 source ~/.secrets
 
@@ -49,22 +46,7 @@ alias pip-unset='pip config unset global.index-url'
 
 # > Git Aliases
 alias git-load-domain-personal="GITHUB_DOMAIN='github-personal'"
-alias git-load-config-personal=fn_git_load_config_personal
 alias git-clear-branches="git branch | grep -v 'main\|master' | xargs git branch -D"
-alias git-clone=fn_git_clone
 alias grms="git checkout master && git-clear-branches && git pull"
 alias grm="git checkout main && git-clear-branches && git pull"
 alias greset="git reset --soft HEAD~1"
-
-# > Pre Commit
-alias pca="pre-commit run --all-files"
-
-# > Terraform Docs
-alias tf-gen-doc="terraform-docs markdown table . > README.md"
-
-# > Cloud 
-
-# * Scripts
-alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
-alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"
-alias oci-ampere-finder="~/Dotfiles/scripts/python/oci-ampere-finder/exec.sh"
