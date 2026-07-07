@@ -7,7 +7,7 @@
 #
 # Requires: Python 3 (standard on macOS/Linux), git
 
-import json, sys, subprocess, os
+import json, sys, subprocess, os, time
 
 # ── Read JSON from stdin ────────────────────────────────────────────────────────
 try:
@@ -52,6 +52,9 @@ repo_name  = get(data, "workspace", "repo", "name")
 session_pct   = get_pct("rate_limits", "five_hour", "used_percentage")
 allmodels_pct = get_pct("rate_limits", "seven_day", "used_percentage")
 
+session_reset_at   = get(data, "rate_limits", "five_hour", "resets_at")
+allmodels_reset_at = get(data, "rate_limits", "seven_day", "resets_at")
+
 # ── ANSI colours ────────────────────────────────────────────────────────────────
 RED    = "\033[31m"
 CYAN   = "\033[36m"
@@ -70,6 +73,23 @@ def fmt_tokens(n):
         v = n / 1_000
         return f"{v:.0f}k" if v == int(v) else f"{v:.1f}k"
     return str(n)
+
+def fmt_remaining(resets_at):
+    """Human-readable time left until resets_at (unix epoch seconds), or "" when absent."""
+    try:
+        remaining = float(resets_at) - time.time()
+    except (TypeError, ValueError):
+        return ""
+    if remaining <= 0:
+        return "0m left"
+    d, rem = divmod(int(remaining), 86400)
+    h, rem = divmod(rem, 3600)
+    m, _   = divmod(rem, 60)
+    if d:
+        return f"{d}d {h}h left"
+    if h:
+        return f"{h}h {m}m left"
+    return f"{m}m left"
 
 def osc8(url, label):
     """OSC 8 clickable hyperlink. Cmd+click macOS, Ctrl+click Linux/Win."""
@@ -150,19 +170,22 @@ line2 = f"📊 {GREY}context{RESET} {pct_color}{pct:3d}%{RESET}  {GREY}{tokens_s
 # ── Line 3: subscription usage (Pro/Max only, after first API response) ───────────
 USAGE_BAR_WIDTH = 10
 
-def usage_segment(label, upct):
+def usage_segment(label, upct, remaining=""):
     color = GREEN
     if upct >= 70: color = YELLOW
     if upct >= 90: color = RED
     filled = round(upct * USAGE_BAR_WIDTH / 100)
     seg_bar = "█" * filled + "░" * (USAGE_BAR_WIDTH - filled)
-    return f"{label} {color}{seg_bar}{RESET} {upct:3d}%"
+    seg = f"{label} {color}{seg_bar}{RESET} {upct:3d}%"
+    if remaining:
+        seg += f"  {GREY}({remaining}){RESET}"
+    return seg
 
 usage_parts = []
 if session_pct is not None:
-    usage_parts.append(usage_segment(f"⏳ {GREY}session{RESET}", session_pct))
+    usage_parts.append(usage_segment(f"⏳ {GREY}session{RESET}", session_pct, fmt_remaining(session_reset_at)))
 if allmodels_pct is not None:
-    usage_parts.append(usage_segment(f"🌐 {GREY}all models{RESET}", allmodels_pct))
+    usage_parts.append(usage_segment(f"🌐 {GREY}all models{RESET}", allmodels_pct, fmt_remaining(allmodels_reset_at)))
 
 line3 = f"{GREY}  ·  {RESET}".join(usage_parts) if usage_parts else ""
 
