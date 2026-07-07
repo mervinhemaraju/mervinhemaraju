@@ -24,6 +24,20 @@ def get(obj, *keys, default=""):
             return default
     return obj if obj is not None else default
 
+def get_pct(*keys):
+    """Return an int percentage for the nested keys, or None when absent."""
+    obj = data
+    for k in keys:
+        if not isinstance(obj, dict):
+            return None
+        obj = obj.get(k)
+        if obj is None:
+            return None
+    try:
+        return int(float(obj))
+    except (TypeError, ValueError):
+        return None
+
 model    = get(data, "model",    "display_name") or "unknown"
 effort   = get(data, "effort", "level")          # "" when model has no effort param
 cwd      = get(data, "workspace", "current_dir") or get(data, "cwd") or ""
@@ -34,6 +48,9 @@ cw_size  = int(float(get(data, "context_window", "context_window_size") or 20000
 repo_host  = get(data, "workspace", "repo", "host")
 repo_owner = get(data, "workspace", "repo", "owner")
 repo_name  = get(data, "workspace", "repo", "name")
+
+session_pct   = get_pct("rate_limits", "five_hour", "used_percentage")
+allmodels_pct = get_pct("rate_limits", "seven_day", "used_percentage")
 
 # ── ANSI colours ────────────────────────────────────────────────────────────────
 RED    = "\033[31m"
@@ -121,22 +138,38 @@ if kube:
 line1 = "  ".join(parts1)
 
 # ── Line 2 ──────────────────────────────────────────────────────────────────────
-BAR_WIDTH = 20
-filled = round(pct * BAR_WIDTH / 100)
-empty  = BAR_WIDTH - filled
-
-bar_color = GREEN
-if pct >= 70: bar_color = YELLOW
-if pct >= 90: bar_color = RED
-
-bar = "█" * filled + "░" * empty
+pct_color = GREEN
+if pct >= 70: pct_color = YELLOW
+if pct >= 90: pct_color = RED
 
 tokens_str = fmt_tokens(tokens)
 cw_str     = fmt_tokens(cw_size)
 
-line2 = f"{bar_color}{bar}{RESET} {pct:3d}%  {GREY}{tokens_str} / {cw_str} tokens{RESET}"
+line2 = f"📊 {GREY}context{RESET} {pct_color}{pct:3d}%{RESET}  {GREY}{tokens_str} / {cw_str} tokens{RESET}"
+
+# ── Line 3: subscription usage (Pro/Max only, after first API response) ───────────
+USAGE_BAR_WIDTH = 10
+
+def usage_segment(label, upct):
+    color = GREEN
+    if upct >= 70: color = YELLOW
+    if upct >= 90: color = RED
+    filled = round(upct * USAGE_BAR_WIDTH / 100)
+    seg_bar = "█" * filled + "░" * (USAGE_BAR_WIDTH - filled)
+    return f"{label} {color}{seg_bar}{RESET} {upct:3d}%"
+
+usage_parts = []
+if session_pct is not None:
+    usage_parts.append(usage_segment(f"⏳ {GREY}session{RESET}", session_pct))
+if allmodels_pct is not None:
+    usage_parts.append(usage_segment(f"🌐 {GREY}all models{RESET}", allmodels_pct))
+
+line3 = f"{GREY}  ·  {RESET}".join(usage_parts) if usage_parts else ""
 
 # ── Output ──────────────────────────────────────────────────────────────────────
 print(line1)
 print()        # blank spacer row between the two lines
 print(line2)
+if line3:
+    print()
+    print(line3)
