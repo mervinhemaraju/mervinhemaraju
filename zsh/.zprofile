@@ -128,12 +128,6 @@ alias azauth-dke="BROWSER=~/scripts/bash/firefox-dke-azure az login --allow-no-s
 
 # > GCP
 alias gauth-dke="BROWSER=~/scripts/bash/firefox-dke-gcp gcloud auth login --login-config=$HOME/.gcp/dke/config.json"
-alias gcca="gcloud config configurations activate"
-alias gccl="gcloud config configurations list"
-alias gccc="gcloud config configurations create"
-alias gccd="gcloud config configurations delete"
-alias gsp='gcloud config set project'
-alias gpl='gcloud projects list --format="table(projectId, name)"'
 
 # > Vercel
 alias vrcp="vercel --token=$VERCEL_PLAGUEWORKS_TOKEN"
