@@ -136,6 +136,7 @@ alias oci-helios=oci_helios
 alias azauth-dke="BROWSER=~/scripts/bash/firefox-dke-azure az login --allow-no-subscriptions"
 
 # > GCP
+alias gcp="gcloud"
 alias gauth-dke="BROWSER=~/scripts/bash/firefox-dke-gcp gcloud auth login --login-config=$HOME/.gcp/dke/config.json"
 
 # > Vercel

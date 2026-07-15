@@ -72,3 +72,7 @@ gsetproject() {
   # $1 is the first argument you provide to the function
   gcloud config set project $(gcloud projects list --filter="NAME='$1'" --format="value(PROJECT_ID)")
 }
+
+gcpj() {
+  gcloud "$@" --format=json | jq
+}

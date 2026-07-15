@@ -121,6 +121,9 @@ alias aws-region-switch=fn_aws_switch_region
 alias aws-get-account='python $EXECS/aws-account-identifier.py'
 alias aws-clear='export AWS_REGION= && export AWS_PROFILE='
 
+# > GCP
+alias gcp="gcloud"
+
 # > OCI
 alias oci-zeus=oci_zeus
 alias oci-poseidon=oci_poseidon
