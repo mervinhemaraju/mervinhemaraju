@@ -19,6 +19,15 @@ source ~/.secrets
 # alias ssh-keys-load-dev='ssh-add -D && ssh-add /Users/mervin.hemaraju/MyKeys/itops_lon.pem && ssh-add /Users/mervin.hemaraju/MyKeys/mgmt-test.pem && ssh-add -l'
 # alias ssh-keys-clear='ssh-add -D'
 
+# > Hop
+alias hlo="hop login"
+alias hlos="hop login sso"
+alias hx="hop switch"
+alias hxx="hop switch --show-principal"
+alias hc="hop console"
+alias hi="hop impersonate"
+alias hic="hop impersonate --clear"
+
 # > Granted.dev
 alias assume=". assume"
 

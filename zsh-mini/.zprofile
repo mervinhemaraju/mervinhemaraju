@@ -14,6 +14,15 @@ source ~/.secrets
 #*##### Aliases #####*#
 #*###################*#
 
+# > Hop
+alias hlo="hop login"
+alias hlos="hop login sso"
+alias hx="hop switch"
+alias hxx="hop switch --show-principal"
+alias hc="hop console"
+alias hi="hop impersonate"
+alias hic="hop impersonate --clear"
+
 # > Granted.dev
 alias assume=". assume"
 

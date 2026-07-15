@@ -99,7 +99,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(azure ansible argocd alias-finder aws copypath dotenv docker docker-compose gcloud history git macos python rust terraform golang pip vscode vagrant kubectl minikube helm kubectx)
+plugins=(azure ansible argocd alias-finder aws copypath dotenv docker docker-compose gcloud history git macos python rust terraform golang pip vscode vagrant kubectl minikube kubectx)
 
 # > Sourcing
 source $ZSH/oh-my-zsh.sh # * ZSH
