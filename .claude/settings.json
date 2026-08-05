@@ -16,7 +16,7 @@
       "Bash(git diff*)",
       "Bash(git branch --show-current*)",
       "Bash(find .azuredevops*)",
-      "Write(/tmp/azdo_*)"
+      "Edit(/tmp/azdo_*)"
     ],
     "deny": [
       "Bash(git commit*)",
@@ -34,6 +34,9 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.sh"
+  },
+  "enabledPlugins": {
+    "clangd-lsp@claude-plugins-official": true
   },
   "effortLevel": "high",
   "tui": "default",

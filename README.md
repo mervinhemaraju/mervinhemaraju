@@ -1,47 +1,77 @@
-# 💫 About Me:
+<div align="center">
 
-I'm Mervin Hemaraju
+[![Typing SVG](https://readme-typing-svg.demolab.com/?font=JetBrains+Mono&size=42&duration=2500&pause=100000&color=E5484D&center=true&vCenter=true&width=600&height=80&lines=mervinhemaraju)](https://github.com/mervinhemaraju)
 
-* Currently a DevOps Engineer
-* Previously a Cloud Platform Engineer
-* Started as a Network Engineer
+👋 DevOps Engineer specializing in cloud platform automation.
+📈 Started as a Network Engineer → Cloud Platform Engineer → DevOps Engineer.
+🌍 Based in Mauritius · [mervinhemaraju.com](https://www.mervinhemaraju.com/)
 
-💻 I'm Currently working on:
+[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=Instagram&logoColor=white)](https://instagram.com/mervinh16)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/mervinh16)
+[![Stack Overflow](https://img.shields.io/badge/Stack_Overflow-FE7A16?style=for-the-badge&logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/6884119)
 
-🧑🏽‍💻 Coding
-
-🐍 Python Scripting
-
-☁️ Cloud Scripting
-
-🖥 Platform Automation
-
-Find me on [www.mervinhemaraju.com](https://www.mervinhemaraju.com/)
-
-## 🌐 Socials:
-
-[![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?logo=Instagram&logoColor=white)](https://instagram.com/mervinh16) [![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/mervinh16) [![Stack Overflow](https://img.shields.io/badge/-Stackoverflow-FE7A16?logo=stack-overflow&logoColor=white)](https://stackoverflow.com/users/6884119)
-
-# 💻 Tech Stack:
-
-![Kotlin](https://img.shields.io/badge/kotlin-%230095D5.svg?style=for-the-badge&logo=kotlin&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Markdown](https://img.shields.io/badge/markdown-%23000000.svg?style=for-the-badge&logo=markdown&logoColor=white) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![AmazonDynamoDB](https://img.shields.io/badge/Amazon%20DynamoDB-4053D6?style=for-the-badge&logo=Amazon%20DynamoDB&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![Jira](https://img.shields.io/badge/jira-%230A0FFF.svg?style=for-the-badge&logo=jira&logoColor=white)
-
-# 📊 GitHub Stats:
-
-![](https://github-readme-stats.vercel.app/api?username=mervinhemaraju&theme=onedark&hide_border=false&include_all_commits=true&count_private=true)`<br/>`
-![](https://github-readme-streak-stats.herokuapp.com/?user=mervinhemaraju&theme=onedark&hide_border=false)`<br/>`
-![](https://github-readme-stats.vercel.app/api/top-langs/?username=mervinhemaraju&theme=onedark&hide_border=false&include_all_commits=true&count_private=true&layout=compact)
-
-## 🏆 GitHub Trophies
-
-![](https://github-profile-trophy.vercel.app/?username=mervinhemaraju&theme=onedark&no-frame=true&no-bg=false&margin-w=4)
+</div>
 
 ---
 
-[![](https://visitcount.itsvg.in/api?id=mervinhemaraju&icon=2&color=0)](https://visitcount.itsvg.in)
+### 🧰 Skills
 
-## 💰 You can help me by Donating
+<table>
+<tr>
+<td><b>Daily</b></td>
+<td>
 
-  [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/th3pl4gu3)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![Cloudflare](https://img.shields.io/badge/Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)
 
-<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
+</td>
+</tr>
+<tr>
+<td><b>Cloud</b></td>
+<td>
+
+![GCP](https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Digital Ocean](https://img.shields.io/badge/Digital_Ocean-0080FF?style=for-the-badge&logo=digitalocean&logoColor=white)
+![Oracle Cloud](https://img.shields.io/badge/Oracle_Cloud-F80000?style=for-the-badge&logo=oracle&logoColor=white)
+
+</td>
+</tr>
+</table>
+
+### 🔧 Featured Projects
+
+| Project | What it does | Stars |
+|---|---|---|
+| [mauritius-emergency-services](https://github.com/mervinhemaraju/mauritius-emergency-services) | Mobile app (Android & iOS) providing emergency service info in Mauritius. | [![Stars](https://img.shields.io/github/stars/mervinhemaraju/mauritius-emergency-services?style=for-the-badge&logo=github&logoColor=white&color=E5484D&label=)](https://github.com/mervinhemaraju/mauritius-emergency-services) |
+| [mauritius-emergency-service-api](https://github.com/mervinhemaraju/mauritius-emergency-service-api) | API serving the list of emergency phone services in Mauritius. | [![Stars](https://img.shields.io/github/stars/mervinhemaraju/mauritius-emergency-service-api?style=for-the-badge&logo=github&logoColor=white&color=E5484D&label=)](https://github.com/mervinhemaraju/mauritius-emergency-service-api) |
+| [hop](https://github.com/mervinhemaraju/hop) | Hop between GCP projects and service accounts in one command: fast switching and impersonation. | [![Stars](https://img.shields.io/github/stars/mervinhemaraju/hop?style=for-the-badge&logo=github&logoColor=white&color=E5484D&label=)](https://github.com/mervinhemaraju/hop) |
+| [robot-rover](https://github.com/mervinhemaraju/robot-rover) | Remote-controlled car driven by a Raspberry Pi, an Arduino, and a mobile app. | [![Stars](https://img.shields.io/github/stars/mervinhemaraju/robot-rover?style=for-the-badge&logo=github&logoColor=white&color=E5484D&label=)](https://github.com/mervinhemaraju/robot-rover) |
+
+### 📊 GitHub Stats
+
+<div align="center">
+
+<table>
+<tr>
+<td valign="top"><img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=mervinhemaraju&theme=github_dark" /></td>
+<td valign="top"><img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=mervinhemaraju&theme=github_dark" /></td>
+</tr>
+</table>
+
+[![Visitor Count](https://visitcount.itsvg.in/api?id=mervinhemaraju&icon=2&color=0)](https://visitcount.itsvg.in)
+
+</div>
+
+---
+
+<div align="center">
+
+**💰 Support**
+
+[![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/th3pl4gu3)
+
+</div>
