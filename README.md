@@ -57,12 +57,12 @@
 
 <table>
 <tr>
-<td valign="top"><img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=mervinhemaraju&theme=github_dark" /></td>
-<td valign="top"><img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=mervinhemaraju&theme=github_dark" /></td>
+<td valign="top"><img src="https://github-readme-stats.vercel.app/api?username=mervinhemaraju&theme=github_dark&hide_border=true&include_all_commits=true&count_private=true" /></td>
+<td valign="top"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=mervinhemaraju&theme=github_dark&hide_border=true&include_all_commits=true&count_private=true&layout=compact" /></td>
 </tr>
 </table>
 
-[![Visitor Count](https://visitcount.itsvg.in/api?id=mervinhemaraju&icon=2&color=0)](https://visitcount.itsvg.in)
+![Profile Views](https://komarev.com/ghpvc/?username=mervinhemaraju&color=e5484d&style=for-the-badge&label=PROFILE+VIEWS)
 
 </div>
 
