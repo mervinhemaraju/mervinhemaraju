@@ -3,3 +3,4 @@ kink==0.8.0
 oci==2.126.1
 cutie==0.3.2
 requests==2.32.3
+cryptography>=46.0.5 # not directly required, pinned by Snyk to avoid a vulnerability
