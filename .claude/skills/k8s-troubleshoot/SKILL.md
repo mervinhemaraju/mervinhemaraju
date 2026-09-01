@@ -100,8 +100,7 @@ resource kind.
 5. **Ingress / networking** — Ingress/IngressRoute (Traefik), certificates,
    external-dns annotations if exposure is the problem.
 6. **Node / cluster** — `kubectl describe node` for the affected nodes:
-   pressure conditions, capacity. `kubectl get events -n <ns>
-   --sort-by=.lastTimestamp` for anything missed.
+   pressure conditions, capacity. `kubectl get events -n <ns> --sort-by=.lastTimestamp` for anything missed.
 7. **Dependencies** — if a layer points elsewhere (operator in another
    namespace, ArgoCD app out of sync, external-secrets not syncing), follow
    the chain with the same read commands until the true origin is found.
@@ -133,8 +132,8 @@ Then ask: **"Want a detailed report written to a markdown file?"**
 
 ## 5 — Detailed Report (only if requested)
 
-Write `k8s-troubleshoot-<resource>-<YYYY-MM-DD>.md` to the current working
-directory:
+Write `k8s-troubleshoot-<resource>-<YYYY-MM-DD>.md` to the
+directory `/Users/mervinhemaraju/Documents/troubleshooting/reports`:
 
 - Summary: resource, namespace, cluster context, root cause, fix.
 - Investigation timeline: each command run, in order, with a short note on
