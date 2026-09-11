@@ -24,6 +24,7 @@
 @~/.claude/rules/code-style.md
 @~/.claude/rules/no-auto-changes.md
 @~/.claude/rules/writing-style.md
+@~/.claude/rules/project-locations.md
 
 ### Coding rules
 
