@@ -112,7 +112,7 @@ alias pass="py $DOTFILES/scripts/python/functions/password_generator.py"
 # > AWS 
 # * scripts
 alias aws-logs-finder="python ~/scripts/python/aws-logs-finder/main.py"
-alias oci-ssh="~/Dotfiles/scripts/python/oci-ssh-connector/exec.sh"
+alias oci-ssh="~/scripts/python/oci-ssh-connector/exec.sh"
 alias oci-ampere-finder="~/Dotfiles/scripts/python/oci-ampere-finder/exec.sh"
 
 # * configs

@@ -1,5 +1,6 @@
 # > Variable exports
 export ZSH="$HOME/.oh-my-zsh" # * Path to your oh-my-zsh installation.
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
 export PATH="$PATH:/opt/homebrew/bin/" # * Path to homebrew installations
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/share/flutter/bin:$PATH"
@@ -12,12 +13,12 @@ export PATH="/opt/homebrew/opt/ruby/bin:$PATH" # * Ruby
 export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH" # * Ruby Gems
 export PATH="$(brew --prefix helm@3)/bin:$PATH" # * Helm3
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH" # * Antigravity
+export PATH="$JAVA_HOME/bin:$PATH"
 export DOTFILES="$HOME/Mervin/Dotfiles" # * Path to dotfiles
 export EXECS="$HOME/Mervin/Execs" # * Path to executables
 export KEYS="$HOME/Mervin/MyKeys" # * Path to SSH Keys
 export PROJECTS="$HOME/Mervin/Projects" # * Path to Projects
 export KUBECONFIG=~/.kube/configs/oci_prod_zeus:~/.kube/configs/oci_dev_helios:~/.kube/configs/oci_mgmt_poseidon
-export JAVA_HOME="/opt/homebrew/opt/openjdk@21"
 export CLOUDSDK_PYTHON="/opt/homebrew/bin//python3.13" # Google Cloud python path 
 export GOBIN="$(go env GOPATH)/bin" # * Path to go bin
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
