@@ -177,3 +177,6 @@ pyrightconfig.json
 .DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+
+# Account skills synced by Claude into ~/.claude/skills (symlinked to this repo)
+.claude/skills/synced/
