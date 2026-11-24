@@ -45,6 +45,7 @@ alias throw='pbpaste >'
 alias update-list='softwareupdate --list'
 alias update-install='softwareupdate --install'
 alias flushdns='dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+alias cache-nuke="~/scripts/bash/clear-cache.sh"
 alias cat='bat -p'
 alias la='lsd -al --color=always --group-directories-first'
 alias ls='lsd -a --color=always --group-directories-first'
